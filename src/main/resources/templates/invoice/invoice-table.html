@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - صورت حساب ها</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Striped rows -->
+                            <div class="col-md-12 my-4">
+                                <h2 class="h4 mb-1"> صورت حساب ها</h2>
+                                <p class="mb-4">از قسمت زیر می توانید تمامی پرداخت ها و صورت حساب ها و همچنین وضعیت آن ها را مشاهده کنید</p>
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <span>از قسمت عملیات می توانید یک صورتحساب را در صورت امکان،  پرداخت یا لغو کنید</span>  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="toolbar row mb-3">
+                                            <div class="col">
+                                            </div>
+                                            <div class="col ml-auto">
+                                                <div class="dropdown float-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- table -->
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>وضعیت</th>
+                                                    <th>نام پرداخت کننده</th>
+                                                    <th>شماره تلفن</th>
+                                                    <th>تاریخ پرداخت</th>
+                                                    <th>نوع اشتراک</th>
+                                                    <th>مجموع (تومان)</th>
+                                                    <th>کد صورتحساب</th>
+                                                    <th>عملیات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="invoice : ${invoices}">
+                                            <th:block th:switch="${invoice.getStatus().toString()}">
+                                                <td th:case="'SUCCESSFUL'"><span class="badge badge-success">موفقیت آمیز </span></td>
+                                                <td th:case="'WAITING'"><span class="badge badge-warning">در انتظار</span></td>
+                                                <td th:case="'UNSUCCESSFUL'"><span class="badge badge-warning">ناموفق</span></td>
+                                                <td th:case="'EXPIRED'"><span class="badge badge-danger">منقضی شد</span></td>
+                                            </th:block>
+                                            <td th:text="${invoice.getUser().getName()}"></td>
+                                            <td th:text="${invoice.getUser().getNumber()}"></td>
+                                            <td th:text="${#temporals.format(invoice.getCreatedAt(),'dd-MMM-yyyy HH:mm:ss')}"></td>
+                                            <th:block th:switch="${invoice.getTypeOfSubscribe().getName()}">
+                                                <td th:case="'SUBTRIAL'">رایگان</td>
+                                                <td th:case="'SUBTIER1'">پایه</td>
+                                                <td th:case="'SUBTIER2'">پیشرفته</td>
+                                                <td th:case="'SUBTIER3'">ویژه</td>
+                                            </th:block>
+                                            <td th:text="${T(java.lang.String).format('%,d', invoice.getAmount())}"></td>
+                                            <td th:text="'#' + ${invoice.getInvoiceNumber()}"></td>
+                                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button"
+                                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="text-muted sr-only">Action</span>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" th:href="@{../../../invoice/status(invoiceNumber = ${invoice.getInvoiceNumber()})}">مشاهده</a>
+                                                    <a th:if="${!user.isActiveCurrentSubscribe() && (invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                                       || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING)}"
+                                                       class="dropdown-item" th:href="@{../../../invoice/status(invoiceNumber = ${invoice.getInvoiceNumber()})}">پرداخت</a>
+                                                    <button class="dropdown-item" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                                            || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING}"
+                                                            data-toggle="modal" th:data-target="'#cancel' + ${invoice.getId()}">لغو</button>
+                                                </div>
+                                                <!--cancel Data Modal -->
+                                                <div class="modal fade" th:id="'cancel' + ${invoice.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true"
+                                                     th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                                     || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING}">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="verticalModalTitle" th:text="${'#' + invoice.getInvoiceNumber() + ' لغو صورتحساب '}"></h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>[[ ' آیا مطمئنی که میخوای صورتحساب ' + ${invoice.getInvoiceNumber() + ' رو لغو کنی؟ '}]]</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">بیخیال</button>
+                                                                <a th:href="@{../../../invoice/cancel(invoiceNumber = ${invoice.getInvoiceNumber()})}" class="btn mb-2 btn-danger">بله، لغو کن</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <nav aria-label="Table Paging" class="mb-0 text-muted">
+                                            <ul class="pagination justify-content-end mb-0">
+                                                <li class="page-item" th:classappend="${invoices.last} ? disabled"><a class="page-link" th:href="@{../../../invoice/all(page = ${invoices.number + 1})}">بعدی</a></li>
+                                                <li class="page-item" th:if="${invoices.totalPages > 0}" th:each="i : ${#numbers.sequence(0, invoices.totalPages - 1)}"
+                                                    th:classappend="${invoices.number == i} ? active"><a class="page-link" th:href="@{../../../invoice/all(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:unless="${invoices.totalPages > 0}" th:each="i : ${#numbers.sequence(0, 0)}"
+                                                    th:classappend="${invoices.number == i} ? active"><a class="page-link" th:href="@{../../../invoice/all(page=${i})}">[[${i + 1}]]</a></li>
+                                                <li class="page-item" th:classappend="${invoices.first} ? disabled"><a class="page-link" th:href="@{../../../invoice/all(page = ${invoices.number - 1})}">قبلی</a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div> <!-- simple table -->
+                        </div> <!-- end section -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

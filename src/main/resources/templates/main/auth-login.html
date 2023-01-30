@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - ورود به حساب</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="dark ">
+    <div class="wrapper vh-100">
+        <div class="row align-items-center h-100">
+            <form class="col-lg-3 col-md-4 col-10 mx-auto text-center" th:action="@{/auth?callback=} + ${#httpServletRequest.getHeader('referer')}" method="post" th:object="${authenticationRequest}">
+                <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./">
+                    <img src="assets/images/logo/v1.22.png" width="75px" height="75px" style="border-radius: 50%;">
+                </a>
+                <h1 class="h4 my-3">ورود به حساب کاربری</h1>
+                <div class="form-group">
+                    <label for="number" class="sr-only">شماره تلفن</label>
+                    <input type="tel" th:field="*{number}" id="number" class="form-control form-control-lg" placeholder="شماره تلفن همراه" required="">
+                </div>
+                <div class="form-group text-right">
+                    <label for="inputPassword" class="sr-only">رمز عبور</label>
+                    <input type="password" th:field="*{password}" id="inputPassword" class="form-control form-control-lg" placeholder="رمز عبور" required="">
+                    <i class="fe fe-eye form-control-lg hide login-form" id="togglePassword" onclick="showPassword()"></i>
+                    <div th:if="${error != null && error.contains('invalid')}" class="text-danger small">شماره تلفن یا رمزعبور نامعتبر می باشد</div>
+                </div>
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="remember_me" value="remember_me"> منو به خاطر بسپار </label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">ورود به حساب</button>
+                <p class="mt-4 mb-2"><a th:href="@{../forgetPassword}" class="text-info">فراموشی رمز عبور</a></p>
+                <hr class="my-4">
+                <p class="mt-4 mb-2"><a th:href="@{../signup}" class="text-info">ایجاد حساب کاربری</a></p>
+                <p class="mt-5 mb-3 text-muted">© DesiBell 2022</p>
+            </form>
+        </div>
+    </div>
+    <div th:replace="fragment/layout::scripts"></div>
+    <script>
+        
+        const input = document.querySelector('#inputPassword');
+        const iconShow = document.getElementById('togglePassword');
+        input.addEventListener('input', inputPassword);
+        
+        function inputPassword(){
+            if(input.value !== ""){
+                iconShow.classList.remove('hide');
+                iconShow.classList.add('show');
+            } else{
+                iconShow.classList.remove('show');
+                iconShow.classList.add('hide');
+            }
+            
+        }
+
+        function showPassword() {
+            var input = document.getElementById("inputPassword");
+            var icon = document.getElementById("togglePassword");
+            if (input.type === "password") {
+              input.type = "text";
+              icon.classList.remove('fe-eye');
+              icon.classList.add('fe-eye-off');
+            } else {
+              input.type = "password";
+              icon.classList.remove('fe-eye-off');
+              icon.classList.add('fe-eye');
+            }
+            
+        }
+        
+    </script>
+</body>
+</html>

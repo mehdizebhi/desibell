@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - Invoice</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center text-left">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Striped rows -->
+                            <div class="col-md-12 my-4">
+                                <h2 class="h4 mb-1">Invoice</h2>
+                                <p class="mb-4">hello admin</p>
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="toolbar row mb-3">
+                                            <div class="col">
+                                            </div>
+                                            <div class="col ml-auto">
+                                                <div class="dropdown float-right">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- table -->
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>id</th>
+                                                    <th>code</th>
+                                                    <th>amount</th>
+                                                    <th>card</th>
+                                                    <th>#invoice</th>
+                                                    <th>ref-id</th>
+                                                    <th>user</th>
+                                                    <th>tos</th>
+                                                    <th>sub</th>
+                                                    <th>date</th>
+                                                    <th>status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="invoice : ${invoices}">
+
+                                                    <td th:text="${invoice.getId()}"></td>
+                                                    <td th:text="${invoice.getCode()}"></td>
+                                                    <td th:text="${invoice.getAmount()}"></td>
+                                                    <td th:text="${invoice.getCardNumber()}"></td>
+                                                    <td th:text="${invoice.getInvoiceNumber()}"></td>
+                                                    <td th:text="${invoice.getRefId()}"></td>
+                                                    <td th:text="${invoice.getUser().getId()}"></td>
+                                                    <td th:text="${invoice.getTypeOfSubscribe().getName()}"></td>
+                                                    <td th:text="${invoice.getSubscribe() != null ? invoice.getSubscribe().getId() : 'null'}"></td>
+                                                    <td>
+                                                        <span class="text-success" th:text="${'c : ' + invoice.getCreatedAt()}"></span>
+                                                        <br>
+                                                        <span class="text-info" th:text="${'u : ' + invoice.getUpdatedAt()}"></span>
+                                                        <br>
+                                                        <span class="text-danger" th:text="${'e : ' + invoice.getExpirationAt()}"></span>
+                                                    </td>
+                                                    <td>
+                                            <th:block th:switch="${invoice.getStatus().toString()}">
+                                                <span th:case="'SUCCESSFUL'" class="badge badge-success">SUCCESSFUL</span>
+                                                <span th:case="'WAITING'"class="badge badge-warning">WAITING</span>
+                                                <span th:case="'UNSUCCESSFUL'" class="badge badge-warning">UNSUCCESSFUL</span>
+                                                <span th:case="'EXPIRED'" class="badge badge-danger">EXPIRED</span>
+                                            </th:block>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <nav aria-label="Table Paging" class="mb-0 text-muted">
+                                            <ul class="pagination justify-content-end mb-0">
+                                                <li class="page-item" th:classappend="${invoices.first} ? disabled"><a class="page-link" th:href="@{../../../admin/invoice(page = ${invoices.number - 1})}">Back</a></li>
+
+                                                <li class="page-item" th:if="${invoices.totalPages > 0}" th:each="i : ${#numbers.sequence(0, invoices.totalPages - 1)}"
+                                                    th:classappend="${invoices.number == i} ? active"><a class="page-link" th:href="@{../../../admin/invoice(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:unless="${invoices.totalPages > 0}" th:each="i : ${#numbers.sequence(0, 0)}"
+                                                    th:classappend="${invoices.number == i} ? active"><a class="page-link" th:href="@{../../../admin/invoice(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:classappend="${invoices.last} ? disabled"><a class="page-link" th:href="@{../../../admin/invoice(page = ${invoices.number + 1})}">Next</a></li>
+
+                                            </ul>
+                                        </nav>
+
+
+                                    </div>
+                                </div>
+                            </div> <!-- simple table -->
+                        </div> <!-- end section -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

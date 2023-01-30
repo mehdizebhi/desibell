@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="headFragment">
+        <link rel="icon" href="../../../assets/images/logo/favicon.ico">
+        <!-- Simple bar CSS -->
+        <link rel="stylesheet" href="../../../css/simplebar.css">
+        <!-- Fonts CSS -->
+        <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,100;0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <!-- Icons CSS -->
+        <link rel="stylesheet" href="../../../css/feather.css">
+        <!-- Date Range Picker CSS -->
+        <link rel="stylesheet" href="../../../css/daterangepicker.css">
+        <!-- App CSS -->
+        <link rel="stylesheet" href="../../../css/app-light.css" id="lightTheme" disabled>
+        <link rel="stylesheet" href="../../../css/app-dark.css" id="darkTheme">
+    </head>
+    <body class="vertical  dark  ">
+        <div class="wrapper">
+            <nav class="topnav navbar navbar-light" th:fragment="navFragment">
+                <button type="button" class="navbar-toggler text-muted mt-2 p-0 mr-3 collapseSidebar">
+                    <i class="fe fe-menu navbar-toggler-icon"></i>
+                </button>
+                <form class="form-inline mr-auto searchform text-muted">
+                    <input class="form-control mr-sm-2 bg-transparent border-0 pl-4 text-muted" type="search"
+                           placeholder="... چیزی بنویسید" aria-label="Search">
+                </form>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-muted my-2" href="#" id="modeSwitcher" data-mode="dark">
+                            <i class="fe fe-sun fe-16"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-shortcut">
+                            <span class="fe fe-grid fe-16"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-notif">
+                        <a class="nav-link text-muted my-2" href="./#" data-toggle="modal" data-target=".modal-notif">
+                            <span class="fe fe-bell fe-16"></span>
+                            <span class="dot dot-md bg-success"></span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-muted pr-0" href="#" id="navbarDropdownMenuLink" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="avatar avatar-sm mt-2">
+                                <img src="../../../assets/avatars/user.png" alt="..." class="avatar-img rounded-circle">
+                            </span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" th:href="@{../../../profile}">پروفایل</a>
+                            <a class="dropdown-item" th:href="@{../../../profile/edit}">ویرایش</a>
+                            <a class="dropdown-item" th:href="@{../../../logout}">خروج</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <aside class="sidebar-left border-right bg-white shadow" id="leftSidebar" data-simplebar th:fragment="asideFragment">
+                <a href="#" class="btn collapseSidebar toggle-btn d-lg-none text-muted ml-2 mt-3" data-toggle="toggle">
+                    <i class="fe fe-x"><span class="sr-only"></span></i>
+                </a>
+                <nav class="vertnav navbar navbar-light">
+                    <!-- nav bar -->
+                    <div class="w-100 mb-4 d-flex">
+                        <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="/">
+                            <img src="../../../assets/images/logo/v1.22.png" width="50px" height="50px" style="border-radius: 50%;">
+                        </a>
+                    </div>
+                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                        <li class="nav-item dropdown">
+                            <a href="#dashboard" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-home fe-16"></i>
+                                <span class="ml-3 item-text">دسی بل</span><span class="sr-only">(current)</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="dashboard">
+                                <li class="nav-item active">
+                                    <a class="nav-link pl-3" th:href="@{/}"><span class="ml-1 item-text">خانه</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" th:href="@{../../../sub}"><span class="ml-1 item-text">اشتراک
+                                            ها</span></a>
+                                </li>
+                                <li class="nav-item" th:if="${false}">
+                                    <a class="nav-link pl-3" href="./dashboard-sales.html"><span class="ml-1 item-text">آموزش</span></a>
+                                </li>
+                                <li class="nav-item" th:if="${false}">
+                                    <a class="nav-link pl-3" href="./dashboard-saas.html"><span class="ml-1 item-text">تماس با ما</span></a>
+                                </li>
+                                <li class="nav-item" th:if="${false}">
+                                    <a class="nav-link pl-3" href="./dashboard-system.html"><span class="ml-1 item-text">بازخورد
+                                            شما</span></a>
+                                </li>
+                                <li class="nav-item" th:if="${false}">
+                                    <a class="nav-link pl-3" href="./dashboard-saas.html"><span class="ml-1 item-text">اطلاعیه ها</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="text-muted nav-heading mt-4 mb-1" th:if="${principal != null}">
+                        <span>حساب کاربری </span>
+                    </p>
+                    <ul class="navbar-nav flex-fill w-100 mb-2" th:if="${principal != null}">
+                        <li class="nav-item dropdown">
+                            <a href="#ui-elements" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-user fe-16"></i>
+                                <span class="ml-3 item-text">پروفایل</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="ui-elements">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" th:href="@{../../../profile}"><span class="ml-1 item-text">نمایش پروفایل</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" th:href="@{../../../profile/edit}"><span class="ml-1 item-text">ویرایش
+                                            اطلاعات</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" th:href="@{../../../invoice/all}"><span class="ml-1 item-text">صورتحساب ها</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" th:href="@{../../../logout}"><span class="ml-1 item-text">خروج</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link" th:href="@{../../../spanel}">
+                                <i class="fe fe-star fe-16"></i>
+                                <span class="ml-3 item-text">پنل اشتراک</span>
+                                <span class="badge badge-pill badge-primary">Sub</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown" th:if="${false}">
+                            <a href="#forms" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle nav-link">
+                                <i class="fe fe-send fe-16"></i>
+                                <span class="ml-3 item-text">تیکت</span>
+                            </a>
+                            <ul class="collapse list-unstyled pl-4 w-100" id="forms">
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_elements.html"><span class="ml-1 item-text">ایجاد تیکت</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_advanced.html"><span class="ml-1 item-text">همه تیکت ها</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_validation.html"><span class="ml-1 item-text">تیکت های
+                                            باز</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_wizard.html"><span class="ml-1 item-text">تیکت های پاسخ داده
+                                            شده</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link pl-3" href="./form_layouts.html"><span class="ml-1 item-text">تیکت های
+                                            بسته</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p class="text-muted nav-heading mt-4 mb-1" th:if="${principal == null}">
+                        <span>وارد شوید</span>
+                    </p>
+                    <ul class="navbar-nav flex-fill w-100 mb-2" th:if="${principal == null}">
+                        <li class="nav-item w-100">
+                            <a class="nav-link" th:href="@{/login}">
+                                <i class="fe fe-log-in fe-16"></i>
+                                <span class="ml-3 item-text">ورود</span>
+                                <span class="badge badge-pill badge-primary">login</span>
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a class="nav-link" th:href="@{/signup}">
+                                <i class="fe fe-user-plus fe-16"></i>
+                                <span class="ml-3 item-text">عضویت</span>
+                                <span class="badge badge-pill badge-primary">sign up</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="text-muted nav-heading mt-4 mb-1">
+                        <span>مستندات</span>
+                    </p>
+                    <ul class="navbar-nav flex-fill w-100 mb-2">
+                        <li class="nav-item w-100">
+                            <a class="nav-link" th:href="@{../../get-start}">
+                                <i class="fe fe-help-circle fe-16"></i>
+                                <span class="ml-3 item-text">شروع به کار</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="btn-box w-100 mt-4 mb-1">
+                        <a th:href="@{/sub}"
+                           target="_blank" class="btn mb-2 btn-primary btn-lg btn-block">
+                            <i class="fe fe-shopping-cart fe-12 mx-2"></i><span class="small">خرید اشتراک</span>
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+            <main role="main" class="main-content">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+
+                        </div> <!-- .col-12 -->
+                    </div> <!-- .row -->
+                    <footer class="mt-4" th:fragment="footer">
+                        <p class="mt-3 mb-3 text-muted" style="text-align: center;">© DesiBell 2022</p>
+                    </footer>
+                </div> <!-- .container-fluid -->
+                <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+                     aria-hidden="true" th:fragment="notification">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="defaultModalLabel">اعلان ها</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="list-group list-group-flush my-n3">
+                                    
+                                    <th:block th:each="notification : ${notifications}">
+                                    <div class="list-group-item bg-transparent">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                <span th:if="${notification.getIcon() == null || notification.getIcon().isBlank()}" class="fe fe-bell fe-24"></span>
+                                                <span th:unless="${notification.getIcon() == null || notification.getIcon().isBlank()}" class="fe fe-24" th:classappend="${notification.getIcon()}"></span>
+                                            </div>
+                                            <div class="col">
+                                                <small><strong th:text="${notification.getSubject()}"></strong></small>
+                                                <div class="my-0 small" th:text="${notification.getDescription()}"></div>
+                                                <small class="badge badge-pill badge-light" th:text="${#temporals.format(notification.getUpdatedAt(),'yyyy-MMMM-dd, HH:mm')}"></small>
+                                            </div>
+                                        </div>
+                                    </div> <!-- / .row -->
+                                    </th:block>
+                                    
+                                </div> <!-- / .list-group -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Clear All</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade modal-shortcut modal-slide" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel"
+                     aria-hidden="true" th:fragment="shortcut">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="defaultModalLabel">میانبر ها</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body px-5">
+                                <div class="row align-items-center">
+                                    <div class="col-6 text-center">
+                                        <a href="https://www.coinex.com/" target="_blank">
+                                            <div class="squircle bg-success justify-content-center">
+                                                <i class="fe fe-dollar-sign fe-32 align-self-center text-white"></i>
+                                            </div>
+                                        </a>
+                                        <p>قیمت ارز</p>
+                                    </div>
+
+                                    <div class="col-6 text-center">
+                                        <a href="https://www.tradingview.com/chart/" target="_blank">
+                                            <div class="squircle bg-primary justify-content-center">
+                                                <i class="fe fe-activity fe-32 align-self-center text-white"></i>
+                                            </div>
+                                        </a>
+                                        <p>نمودار ارز</p>
+                                    </div>
+
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-6 text-center">
+                                        <a href="https://www.coinex.com/" target="_blank">
+                                            <div class="squircle bg-info justify-content-center">
+                                                <i class="fe fe-globe fe-32 align-self-center text-white"></i>
+                                            </div>
+                                        </a>
+                                        <p>کوینکس</p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <a href="https://www.binance.com/en" target="_blank">
+                                            <div class="squircle bg-warning justify-content-center">
+                                                <i class="fe fe-slack fe-32 align-self-center text-white"></i>
+                                            </div>
+                                        </a>
+                                        <p>بایننس</p>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-6 text-center">
+                                        <a href="https://arzdigital.com/" target="_blank">
+                                            <div class="squircle bg-secondary justify-content-center">
+                                                <i class="fe fe-align-right fe-32 align-self-center text-white"></i>
+                                            </div>
+                                        </a>
+                                        <p>اخبار ارز</p>
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <a href="https://wallex.ir/" target="_blank">
+                                            <div class="squircle bg-danger justify-content-center">
+                                                <i class="fe fe-smile fe-32 align-self-center text-white"></i>
+                                            </div>
+                                        </a>
+                                        <p>ولکس</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main> <!-- main -->
+        </div> <!-- .wrapper -->
+    <th:block th:fragment="scripts">
+        <script src="../../../js/jquery.min.js"></script>
+        <script src="../../../js/popper.min.js"></script>
+        <script src="../../../js/moment.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/simplebar.min.js"></script>
+        <script src="../../../js/daterangepicker.js"></script>
+        <script src="../../../js/jquery.stickOnScroll.js"></script>
+        <script src="../../../js/tinycolor-min.js"></script>
+        <script src="../../../js/config.js"></script>
+        <script src="../../../js/apps.js"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+
+          function gtag()
+          {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', 'UA-56159088-1');
+        </script>
+        <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="47fc8715-1d61-410f-a3cb-fe21990038ed";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+    </th:block>
+</body>
+</html>

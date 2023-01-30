@@ -1,0 +1,110 @@
+@font-face {
+    font-family: Samim;
+    src: url("../fonts/Samim.eot");
+    src: url("../fonts/Samim.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/Samim.woff2") format("woff2"),
+        url("../fonts/Samim.woff") format("woff"),
+        url("../fonts/Samim.ttf") format("truetype");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Samim;
+    src: url("../fonts/Samim-Bold.eot");
+    src: url("../fonts/Samim-Bold.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/Samim-Bold.woff2") format("woff2"),
+        url("../fonts/Samim-Bold.woff") format("woff"),
+        url("../fonts/Samim-Bold.ttf") format("truetype");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Samim;
+    src: url("../fonts/Samim-Medium.eot");
+    src: url("../fonts/Samim-Medium.eot?#iefix") format("embedded-opentype"),
+        url("../fonts/Samim-Medium.woff2") format("woff2"),
+        url("../fonts/Samim-Medium.woff") format("woff"),
+        url("../fonts/Samim-Medium.ttf") format("truetype");
+    font-weight: 500;
+}
+
+body {
+    font-family: Samim, "Overpass", sans-serif;
+    background-color: #212529;
+}
+.pricing-table-subtitle {
+    color: #ececec;
+    padding-top: 45px; }
+
+.pricing-table-title {
+    color: #ececec;
+    font-size: 30px;
+    font-weight: bold;
+    padding-bottom: 45px; }
+
+.pricing-card {
+    margin-left: 10px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-align: center; }
+.pricing-card.pricing-card-highlighted, .pricing-card:hover {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc82d), to(#ff7100));
+    background-image: linear-gradient(to bottom, #ffc82d, #ff7100);
+    color: #fff; }
+.pricing-card .card-body {
+    padding: 85px 25px 65px; }
+
+.pricing-plan-title {
+    font-size: 20px;
+    color: inherit;
+    margin-bottom: 16px;
+    font-weight: bold; }
+
+.pricing-plan-cost {
+    font-size: 50px;
+    color: inherit;
+    font-weight: bold;
+    margin-bottom: 0; }
+
+.pricing-plan-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 8px; }
+.pricing-plan-icon.icon-white {
+    display: none; }
+.pricing-card-highlighted .pricing-plan-icon, .pricing-card:hover .pricing-plan-icon {
+    display: none; }
+.pricing-card-highlighted .pricing-plan-icon.icon-white, .pricing-card:hover .pricing-plan-icon.icon-white {
+    display: inline-block; }
+
+.pricing-plan-term {
+    color: #a1a9af;
+    font-size: 18px;
+    margin-bottom: 28px; }
+.pricing-card-highlighted .pricing-plan-term, .pricing-card:hover .pricing-plan-term {
+    color: inherit; }
+
+.pricing-plan-features {
+    list-style: none;
+    padding-left: 0;
+    font-size: 16px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+    color: inherit; }
+
+.pricing-plan-purchase-btn {
+    color: #fff;
+    background-color: #ffb822;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 20px;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s; }
+.pricing-card-highlighted .pricing-plan-purchase-btn, .pricing-card:hover .pricing-plan-purchase-btn {
+    background-color: #fff;
+    color: #ffb822; }

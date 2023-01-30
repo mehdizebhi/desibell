@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - صورت حساب پرداخت</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center" th:if="${invoice == null}">
+                    <div class="col-12 col-lg-10 col-xl-8 mb-4">
+                        <div class="alert alert-secondary" role="alert">
+                            <h4 class="alert-heading"> صورت حسابی یافت نشد <span class="fe fe-alert-triangle fe-16 mr-2"></span></h4>
+                            <p>شما صورت حسابی با این مشخصات ندارید</p>
+                            <hr>
+                            <p class="mb-0">اگر مشکلی پیش آمده با ما تماس بگیرید</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center" th:if="${invoice != null}">
+
+                    <div class="col-12 col-lg-10 col-xl-8 mb-4" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).SUCCESSFUL}">
+                        <div class="alert alert-success" role="alert">
+                            <h4 class="alert-heading"> پرداخت با موفقیت انجام شد <span class="fe fe-smile fe-16 mr-2"></span></h4>
+                            <p>اشتراک از همین لحظه برای شما فعال شد</p>
+                            <hr>
+                            <p class="mb-0">جهت مشاهده اشتراک فعال به صفحه پروفایل بروید</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-10 col-xl-8 mb-4" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING}">
+                        <div class="alert alert-warning" role="alert">
+                            <h4 class="alert-heading"> پرداخت با مشکل مواجه شد <span class="fe fe-meh fe-16 mr-2"></span></h4>
+                            <p>اشتراکی برای شما فعال نگردید</p>
+                            <p>شما حداکثر تا 48 ساعت زمان دارید تا پرداختتان را تکمیل کنید</p>
+                            <hr>
+                            <p class="mb-0">جهت ادامه پرداخت از قسمت زیر پرداخت را تکمیل فرمایید</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-10 col-xl-8 mb-4" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL}">
+                        <div class="alert alert-danger" role="alert">
+                            <h4 class="alert-heading"> پرداخت ناموفق بود <span class="fe fe-frown fe-16 mr-2"></span></h4>
+                            <p>اشتراکی برای شما فعال نگردید</p>
+                            <p>شما حداکثر تا 48 ساعت زمان دارید تا پرداختتان را تکمیل کنید</p>
+                            <hr>
+                            <p class="mb-0">جهت ادامه پرداخت از قسمت زیر پرداخت را تکمیل فرمایید</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-10 col-xl-8 mb-4" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).EXPIRED}">
+                        <div class="alert alert-secondary" role="alert">
+                            <h4 class="alert-heading"> پرداخت منقضی شد <span class="fe fe-clock fe-16 mr-2"></span></h4>
+                            <p>پرداختی انجام نشده است و مهلت پرداخت نیز به پایان رسیده است</p>
+                            <p>اشتراکی برای شما فعال نگردید</p>
+                            <hr>
+                            <p class="mb-0">جهت خرید اشتراک به صفحه خرید اشتراک  بروید</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-10 col-xl-8">
+                        <div class="row align-items-center mb-4">
+                            <div class="col">
+                                <h2 class="h5 page-title"><small class="text-muted text-uppercase">صورت حساب</small><br />[[${'#' + invoice.getInvoiceNumber()}]]</h2>
+                            </div>
+                            <div class="col-auto">
+                                <form th:action="@{../../../purchase/repay}" method="post" th:object="${invoice}">
+                                    <input type="hidden" th:field="*{id}">
+                                    <input type="hidden" th:field="*{code}">
+                                    <button type="button" class="btn btn-secondary">چاپ</button>
+                                    <button type="button" class="btn btn-danger" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                            || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING}"
+                                            data-toggle="modal" th:data-target="'#cancel' + ${invoice.getId()}">لغو</button>
+                                    <button th:if="${!user.isActiveCurrentSubscribe() && (invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                            || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING)}"
+                                            th:text="${invoice.remainingInvoiceHours() > 0 ? 'پرداخت' + ' : ' + invoice.remainingInvoiceHours() + ' ساعت مانده'
+                                            : 'پرداخت' + ' : ' +  invoice.remainingInvoiceMinutes() + ' دقیقه مانده'}"
+                                            class="btn btn-primary" type="submit"></button>
+                                    <button th:if="${user.isActiveCurrentSubscribe() && (invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                            || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING)}" class="btn btn-info">شما یک اشتراک فعال دارید</button>
+                                    <button th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).EXPIRED}" class="btn btn-danger">پرداخت منقضی شد</button>
+                                </form>
+                                <!--cancel Data Modal -->
+                                <div class="modal fade" th:id="'cancel' + ${invoice.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true"
+                                     th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                     || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING}">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="verticalModalTitle" th:text="${'#' + invoice.getInvoiceNumber() + ' لغو صورتحساب '}"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>[[ ' آیا مطمئنی که میخوای صورتحساب ' + ${invoice.getInvoiceNumber() + ' رو لغو کنی؟ '}]]</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">بیخیال</button>
+                                                <a th:href="@{../../../invoice/cancel(invoiceNumber = ${invoice.getInvoiceNumber()})}" class="btn mb-2 btn-danger">بله، لغو کن</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow">
+                            <div class="card-body p-5">
+                                <div class="row mb-5">
+                                    <div class="col-12 text-center mb-4" th:switch="${invoice.getTypeOfSubscribe().getName()}">
+                                        <img src="../../../assets/images/buy.png" class="navbar-brand-img brand-sm mx-auto mb-4" alt="...">
+                                        <h2 class="mb-0 text-uppercase">صورت حساب</h2>
+                                        <p class="mt-3 text" th:case="'SUBTRIAL'"><mark>اشتراک رایگان</mark></p>
+                                        <p class="mt-3 text" th:case="'SUBTIER1'"><mark>اشتراک پایه</mark></p>
+                                        <p class="mt-3 text" th:case="'SUBTIER2'"><mark>اشتراک پیشرفته</mark></p>
+                                        <p class="mt-3 text" th:case="'SUBTIER3'"><mark>اشتراک ویژه</mark></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <th:block th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).UNSUCCESSFUL
+                                                  || invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).WAITING}">
+                                            <p>
+                                                <small class="text text-uppercase">شروع از امروز</small><br />
+                                                <strong th:text="${#temporals.format(T(java.time.LocalDateTime).now(),'MMMM dd, yyyy')}"></strong>
+                                            </p>
+                                            <p>
+                                                <small class="text text-uppercase">اتمام دوره در</small><br />
+                                                <strong th:text="${#temporals.format(T(java.time.LocalDateTime).now().plusDays(invoice.getTypeOfSubscribe().getPeriod()),'MMMM dd, yyyy')}"></strong>
+                                            </p>
+                                        </th:block>
+                                        <th:block th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).SUCCESSFUL}">
+                                            <p>
+                                                <small class="text text-uppercase">شروع از </small><br />
+                                                <strong th:text="${#temporals.format(invoice.getSubscribe().getBeginningtAt(),'MMMM dd, yyyy')}"></strong>
+                                            </p>
+                                            <p>
+                                                <small class="text text-uppercase">اتمام دوره در</small><br />
+                                                <strong th:text="${#temporals.format(invoice.getSubscribe().getExpirationAt(),'MMMM dd, yyyy')}"></strong>
+                                            </p>
+                                        </th:block>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text text-uppercase mb-2">اطلاعات خریدار</p>
+                                        <p class="mb-4">
+                                            <strong th:text="${invoice.getUser().getName()}"></strong><br />
+                                        <th:block th:text="${invoice.getUser().getNumber()}"></th:block><br />
+                                        <th:block th:text="${invoice.getUser().getEmail()}"></th:block><br />
+                                        </p>
+                                    </div>
+                                </div> <!-- /.row -->
+                                <div class="row mt-5">
+
+                                    <div class="col-md-6">
+                                        <div class="text-right mr-2">
+                                            <p class="mb-2 h6">
+                                                <span class="text">مبلغ قابل پرداخت: </span>
+                                                <strong th:text="${T(java.lang.String).format(' %,d تومان', invoice.getTypeOfSubscribe().getPrice())}"></strong>
+                                            </p>
+                                            <p class="mb-2 h6">
+                                                <span class="text">مالیات: </span>
+                                                <strong th:text="${T(java.lang.String).format(' %,d تومان', 0)}"></strong>
+                                            </p>
+                                            <p class="mb-2 h6">
+                                                <span class="text">مجموع کل: </span>
+                                                <strong th:text="${T(java.lang.String).format(' %,d تومان', invoice.getAmount())}"></strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text small">
+                                            <strong>توجه :</strong> مبلغ پرداختی از قسمت زیر قابل مشاهده است. در صورتی که پرداخت شما ناموفق بوده است مبلغی از شما کسر نشده است </p>
+                                        <p class="mb-2 h6">
+                                            <span class="text">مبلغ پرداخت شده: </span>
+                                            <strong class="text-success" th:if="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).SUCCESSFUL}" th:text="${T(java.lang.String).format(' %,d تومان', invoice.getAmount())}"></strong>
+                                            <strong class="text-danger" th:unless="${invoice.getStatus() == T(ir.desibell.notificationService.enums.invoice.Status).SUCCESSFUL}" th:text="${T(java.lang.String).format(' %,d تومان', 0)}"></strong>
+                                        </p>
+                                    </div>
+                                </div> <!-- /.row -->
+                            </div> <!-- /.card-body -->
+                        </div> <!-- /.card -->
+                    </div> <!-- /.col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - Admin</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center text-left">
+                    <div class="col-12 mb-4">
+                        <h2 class="h5 page-title">Admin Panel</h2>
+                        <p class="text-muted">Hello Admin</p>
+
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card shadow">
+                                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                                        <a class="navbar-brand" href="../admin/contents">Admin</a>
+                                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                            <i class="fe fe-menu"></i>
+                                        </button>
+
+                                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                            <ul class="navbar-nav mr-auto">
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        User
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item" href="#">User</a>
+                                                        <a class="dropdown-item" href="#">Subscribe</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/authority}">Authority</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/invoice}">Invoice</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/resetPassword}">Reset Password</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/confirmCode}">Confirm Code</a>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        SubPanel
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item" href="#">SubPanel</a>
+                                                        <a class="dropdown-item" href="#">Data</a>
+                                                        <a class="dropdown-item" href="#">Message</a>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        System
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item" th:href="@{../../../admin/operation}">Operation</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/role}">Role</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/tos}">Type Of Subscribe</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/cryptocurrency}">Cryptocurrency</a>
+                                                        <a class="dropdown-item" th:href="@{../../../admin/notification}">Notification</a>
+                                                    </div>
+                                                </li>
+                                                <li class="nav-item dropdown">
+                                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Other
+                                                    </a>
+                                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item" href="#">Ticket</a>
+                                                        <a class="dropdown-item" href="#">Poll</a>
+                                                        <div class="dropdown-divider"></div>
+                                                        <a class="dropdown-item" href="#">Contact Us</a>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
+                                        </div>
+                                    </nav>
+                                    <div class="card-body">
+
+                                        <div class="row">
+
+                                            <div class="col-md-6 col-xl-3 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-3 text-center">
+                                                                <span class="circle circle-sm bg-secondary">
+                                                                    <i class="fe fe-16 fe-toggle-right text-white mb-0"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="small mb-0">Sub Trial</p>
+                                                                <span class="h3 mb-0" th:text="${TrialSubsNumber}"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 col-xl-3 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-3 text-center">
+                                                                <span class="circle circle-sm bg-warning">
+                                                                    <i class="fe fe-16 fe-toggle-right text-white mb-0"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="small mb-0">Sub Tier1</p>
+                                                                <span class="h3 mb-0" th:text="${Tier1SubsNumber}"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6 col-xl-3 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-3 text-center">
+                                                                <span class="circle circle-sm bg-info">
+                                                                    <i class="fe fe-16 fe-toggle-right text-white mb-0"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="small mb-0">Sub Tier2</p>
+                                                                <span class="h3 mb-0" th:text="${Tier2SubsNumber}"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6 col-xl-3 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-3 text-center">
+                                                                <span class="circle circle-sm bg-primary">
+                                                                    <i class="fe fe-16 fe-toggle-right text-white mb-0"></i>
+                                                                </span>
+                                                            </div>
+                                                            <div class="col">
+                                                                <p class="small mb-0">Sub Tier3</p>
+                                                                <span class="h3 mb-0" th:text="${Tier3SubsNumber}"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
+
+                                            <div class="col-md-4 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <span class="h2 mb-0" th:text="${usersNumber}"></span>
+                                                                <p class="small mb-0">Users</p>
+                                                                <span class="badge badge-pill badge-primary">total</span>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <span class="fe fe-32 fe-users text-muted mb-0"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <span class="h2 mb-0" th:text="${cryptoNum}"></span>
+                                                                <p class="small mb-0">Cryptocurrencies</p>
+                                                                <span class="badge badge-pill badge-primary">total</span>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <span class="fe fe-32 fe-disc text-muted mb-0"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-4 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <span class="h2 mb-0" th:text="${availableCryptoNum}"></span>
+                                                                <p class="small mb-0">Available Cryptocurrencies</p>
+                                                                <span class="badge badge-pill badge-success" th:text="${'Available'}"></span>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <span class="fe fe-32 fe-activity text-muted mb-0"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-4 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <span class="h2 mb-0" th:text="${subsNumber}"></span>
+                                                                <p class="small mb-0">Subscribes</p>
+                                                                <span class="badge badge-pill badge-primary">total</span>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <span class="fe fe-32 fe-star text-muted mb-0"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-md-4 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <span class="h2 mb-0" th:text="${currentSubsNumber}"></span>
+                                                                <p class="small mb-0">Active Subscribes</p>
+                                                                <span class="badge badge-pill badge-warning">currently</span>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <span class="fe fe-32 fe-award text-muted mb-0"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <div class="col-md-4 mb-4">
+                                                <div class="card shadow bg-light">
+                                                    <div class="card-body">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <span class="h2 mb-0" th:text="${T(java.lang.String).format('T %,d',sumInvoicesAmount)}"></span>
+                                                                <p class="small mb-0">Invoices</p>
+                                                                <span class="badge badge-pill badge-success" th:text="${'success : ' + successfulInvoiceNum}"></span>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <span class="fe fe-32 fe-dollar-sign text-muted mb-0"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end section -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - پنل اشتراک</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+    <!-- Icons CSS -->
+    <link rel="stylesheet" href="css/select2.css">
+    <link rel="stylesheet" href="css/dropzone.css">
+    <link rel="stylesheet" href="css/uppy.min.css">
+    <link rel="stylesheet" href="css/jquery.steps.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+    <link rel="stylesheet" href="css/quill.snow.css">
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12 mb-4" th:unless="${user.isActiveCurrentSubscribe()}">
+                        <div class="alert alert-danger mb-lg-5 mt-lg-5" role="alert">
+                            <h4 class="alert-heading"> شما در حال حاضر اشتراک فعال ندارید <span class="fe fe-meh fe-16 mr-2"></span></h4>
+                            <p>جهت دسترسی به پنل اشتراک نیاز به فعالسازی یک اشتراک دارید</p>
+                            <hr>
+                            <p class="mb-0"><a th:href="@{../../../sub}">جهت خرید اشتراک کلیک کنید</a></p>
+                        </div>
+                    </div>
+                    <div class="col-12" th:if="${user.isActiveCurrentSubscribe()}">
+                        <h2 class="page-title">پنل اشتراک</h2>
+                        <p class="text">برای تنظیمات و شخصی سازی اطلاع رسانی نوسانات قیمت ارز های دیجیتال، فرم و قسمت های زیر را تکمیل فرمایید</p>
+                        <div class="row">
+
+                            <div class="col-md-6 col-xl-4 mb-4" th:switch="${user.getCurrentSubscribe().getTypeOfSubscribe().getName()}">
+                                <!-- SUBTRIAL -->
+                                <div class="card shadow bg-secondary-dark text-white" th:case="'SUBTRIAL'">
+                                    <div class="card-body" >
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-center">
+                                                <span class="circle circle-sm bg-secondary-light">
+                                                    <i class="fe fe-16 fe-star text-white mb-0"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <p class="small text mb-0">اشتراک شما</p>
+                                                <th:block th:switch="${user.getCurrentSubscribe().getTypeOfSubscribe().getName()}">
+                                                    <span class="h3 mb-0 text-white">رایگان</span>
+                                                </th:block>
+                                                <span class="small text-muted"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- SUBTIER1 -->
+                                <div class="card shadow bg-warning-dark text-white" th:case="'SUBTIER1'">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-center">
+                                                <span class="circle circle-sm bg-warning-light">
+                                                    <i class="fe fe-16 fe-star text-white mb-0"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <p class="small text mb-0">اشتراک شما</p>
+                                                <th:block th:switch="${user.getCurrentSubscribe().getTypeOfSubscribe().getName()}">
+                                                    <span class="h3 mb-0 text-white">پایه</span>
+                                                </th:block>
+                                                <span class="small text-muted"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- SUBTIER2 -->
+                                <div class="card shadow bg-info-dark text-white" th:case="'SUBTIER2'">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-center">
+                                                <span class="circle circle-sm bg-info">
+                                                    <i class="fe fe-16 fe-star text-white mb-0"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <p class="small text mb-0">اشتراک شما</p>
+                                                <th:block th:switch="${user.getCurrentSubscribe().getTypeOfSubscribe().getName()}">
+                                                    <span class="h3 mb-0 text-white">پیشرفته</span>
+                                                </th:block>
+                                                <span class="small text-muted"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- SUBTIER3 -->
+                                <div class="card shadow bg-primary-dark text-white" th:case="'SUBTIER3'">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-center">
+                                                <span class="circle circle-sm bg-primary-light">
+                                                    <i class="fe fe-16 fe-star text-white mb-0"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <p class="small text mb-0">اشتراک شما</p>
+                                                <th:block th:switch="${user.getCurrentSubscribe().getTypeOfSubscribe().getName()}">
+                                                    <span class="h3 mb-0 text-white">ویژه</span>
+                                                </th:block>
+                                                <span class="small text-muted"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-3 mb-4">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-center">
+                                                <span class="circle circle-sm bg-primary">
+                                                    <i class="fe fe-16 fe-target text-white mb-0"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col pr-0">
+                                                <p class="small text mb-0">ارزهای در دسترس شما</p>
+                                                <span class="h3 mb-0">[[${user.getCurrentSubscribe().getTypeOfSubscribe().getNumberOfCoinsAccepted()}]]</span>
+                                                <span class="small text-success"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-5 mb-4">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="row align-items-center">
+                                            <div class="col-3 text-center">
+                                                <span class="circle circle-sm bg-warning">
+                                                    <i class="fe fe-16 fe-clock text-white mb-0"></i>
+                                                </span>
+                                            </div>
+                                            <div class="col">
+                                                <p class="small text mb-0" th:text="${user.getCurrentSubscribe().remainingSubDay()} + 'd & ' + ${user.getCurrentSubscribe().remainingSubHours()} + 'h ' + ' : زمان باقی مانده اشتراک '"></p>
+                                                <div class="row align-items-center no-gutters">
+                                                    <div class="col-auto">
+                                                        <span class="h3 mr-2 mb-0">[[${user.getCurrentSubscribe().remainingPercentageOfSub() + '%'}]]</span>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg">
+                                                        <div class="progress progress-sm mt-2" style="height:8px">
+                                                            <div class="progress-bar bg-success" role="progressbar" th:style="'width: ' + ${user.getCurrentSubscribe().remainingPercentageOfSub()} + '%;'" 
+                                                                 aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end section -->
+
+                            <div class="col-md-12">
+                                
+                                <div th:if="${error != null && error.equals('verifydata')}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    ارز با موفقیت اضافه شد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                
+                                <div th:if="${error != null && error.equals('cantVerifydata')}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    شما نمی توانید ارز جدیدی اضافه کنید <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                
+                                <div th:if="${error != null && error.equals('verifyDelete')}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    ارز با موفقیت حذف شد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                
+                                <div th:if="${error != null && error.equals('cantVerifyDelete')}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    شما نمی توانید ارز را حذف کنید <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+
+                                <div th:if="${error != null && error.equals('verifyEdit')}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                    ارز با موفقیت ویرایش شد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                
+                                <div th:if="${error != null && error.equals('cantVerifyEdit')}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    مشکلی در ویرایش ارز رخ داد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+
+                                <div id="message" class="hide">
+                                    <div class="alert alert-dismissible fade show" role="alert">
+                                        <span class="span-text"></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="card shadow mb-4">
+                                    <div class="card-header">
+                                        <strong style="float: right;" class="card-title">فرم شخصی سازی پنل اشتراک</strong>
+                                        <div class="custom-control custom-switch text-left">
+                                            <form th:object="${subPanel}" th:action="@{../../../spanel/enabled}" method="post" id="frm_enabled">
+                                                <input type="hidden" th:field="*{id}">
+                                                <input th:field="*{enabled}" type="checkbox" class="custom-control-input" id="enabledSwitch" onchange="enableSubPanel(this)">
+                                                <label class="custom-control-label" for="enabledSwitch">فعال سازی</label>
+                                            </form>
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="card-body">
+                                        <form class="needs-validation" th:action="@{../../../spanel/verify-phone}" method="post" th:object="${subPanel}" novalidate>
+                                            <input type="hidden" th:field="*{id}">
+                                            <div class="form-row">
+                                                <div class="col-md-12 mb-3">
+                                                    <label for="validationCustom3">شماره تلفن همراه : <span class="small">(شماره وارد شده در این فرم می تواند با شماره حساب کاربری  شما متفاوت باشد)</span></label>
+                                                    <input type="tel" class="form-control" id="validationCustom3" th:value="*{phoneNumber}" th:field="*{phoneNumber}" pattern="[0]{1}[9]{1}[0-9]{9}" placeholder="09123456789" required="">
+                                                    <div class="valid-feedback"> به نظر خوب میاد </div>
+                                                    <div class="invalid-feedback"> شماره وارد شده معتبر نیست </div>
+                                                    <div th:if="${error != null && error.equals('existNumber')}" class="text-danger small"> شماره وارد شده برای یک پنل اشتراک دیگر ثبت شده است </div>
+                                                </div>
+                                            </div> <!-- /.form-row -->
+                                            <button class="btn btn-primary" type="submit">تایید شماره</button>
+                                        </form>
+                                        <hr>
+                                        <div class="mb-3">
+                                            <p class="h5 mb-2"></p>
+                                            <div class="form-row">
+                                                <div class="col-md-12">
+                                                    <!-- Small table -->
+                                                    <div class="col-md-12 my-4">
+                                                        <h2 class="h4 mb-1">لیست ارز های شما</h2>
+                                                        <p class="mb-3">از قسمت عملیات می توانید ارزهای خود را ویرایش یا حذف کنید</p>
+
+                                                        <form class="needs-validation" th:action="@{../../../spanel/verify-data}" method="post" th:object="${dataObject}" novalidate>
+                                                            <input type="hidden" th:field="*{subPanel}" th:value="${subPanel}">
+                                                            <input type="hidden" th:field="*{id}">
+                                                            <input type="hidden" th:field="*{lastMessage}">
+                                                            <div class="mt-3">
+                                                                <div class="form-row">
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <!-- Button trigger modal -->
+                                                                        <button type="button" class="btn mb-2 btn-success" data-toggle="modal" data-target="#new-data"> اضافه کردن ارز جدید <i class="fe fe-plus-circle"></i></button>
+                                                                        <!-- Modal -->
+                                                                        <div class="modal fade" id="new-data" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="verticalModalTitle">شخصی سازی ارز دیجیتال</h5>
+                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <div class="form-row">
+                                                                                            <div class="col-md-12 mb-3">
+                                                                                                <select th:field="*{cryptocurrency}" class="form-control select2" id="validationSelect2" required>
+                                                                                                    <option value="">ارز مورد نظر خود را انتخاب کنید</option>
+                                                                                                    <optgroup label="ارز های دیجیتال">
+                                                                                                    <th:block th:each="cryptocurrency : ${cryptocurrencies}">
+                                                                                                        <option th:value="${cryptocurrency.getId()}">[[${cryptocurrency.getName() + ' (' + cryptocurrency.getSymbol() + ')'}]]</option>
+                                                                                                    </th:block>
+                                                                                                    </optgroup>
+                                                                                                </select>
+                                                                                                <label for="validationSelect2"> : ارز دیجیتال</label>
+                                                                                                <div class="invalid-feedback"> لطفا یک ارز معتبر انتخاب کنید </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-row">
+                                                                                            <th:block th:each="typeOfData : ${user.getCurrentSubscribe().getTypeOfSubscribe().getTypeOfData()}">
+                                                                                                <div class="col-md-6 mb-3" th:switch="${typeOfData}">
+                                                                                                    <th:block th:case="'Highest'">
+                                                                                                        <label for="validationCustom4">بالاترین قیمت (دلار)</label>
+                                                                                                        <input type="number" step="0.01" min="0" th:field="*{nameValue['__${'Highest'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                        <div class="invalid-feedback"> این فیلد نمی تواند خالی باشد </div>
+                                                                                                    </th:block>
+                                                                                                    <th:block th:case="'Lowest'">
+                                                                                                        <label for="validationCustom4">پایین ترین قیمت (دلار)</label>
+                                                                                                        <input type="number" step="0.01" min="0" th:field="*{nameValue['__${'Lowest'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                        <div class="invalid-feedback"> این فیلد نمی تواند خالی باشد </div>
+                                                                                                    </th:block>
+                                                                                                    <th:block th:case="'MaxChange'">
+                                                                                                        <label for="validationCustom4">رشد لحظه ای (درصد)</label>
+                                                                                                        <input type="number" step="0.01" min="0" max="30" th:field="*{nameValue['__${'MaxChange'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                        <div class="invalid-feedback"> مقدار این فیلد باید بین 0 تا 30 باشد </div>
+                                                                                                    </th:block>
+                                                                                                    <th:block th:case="'MinChange'">
+                                                                                                        <label for="validationCustom4">کاهش لحظه ای (درصد)</label>
+                                                                                                        <input type="number" step="0.01" min="-30" max="0" th:field="*{nameValue['__${'MinChange'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                        <div class="invalid-feedback"> مقدار این فیلد باید بین 0 تا 30- باشد </div>
+                                                                                                    </th:block>
+
+                                                                                                </div>
+                                                                                            </th:block>
+                                                                                        </div>
+                                                                                        <div class="mt-3">
+                                                                                            <p class="mb-2 small">برای عملکرد بهتر لطفا بازه مناسب با توجه به ارز دلخواه انتخاب کنید</p>
+                                                                                            <p class="mb-2 small">توجه داشته باشید تعیین بازه دور از واقعیت مورد بررسی قرار نمی گیرد</p>
+                                                                                            <p class="mb-2 small">جهت عملکرد بهتر، حداکثر سود یا کاهش لحظه ای 30 درصد در نظر گرفته شده است</p>
+                                                                                            <p class="mb-2 small">برای تعیین کاهش لحظه ای لطفا مقدار با علامت منفی را قرار دهید</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">بیخیال</button>
+                                                                                        <button type="submit" class="btn mb-2 btn-primary">ذخیره ارز</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> <!-- /.form-row -->
+                                                            </div>
+                                                        </form>
+
+                                                        <div class="card shadow">
+                                                            <div class="card-body">
+                                                                <div class="toolbar">
+                                                                </div>
+                                                                <!-- table -->
+                                                                <table class="table table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>کاهش لحظه ای</th>
+                                                                            <th>رشد لحظه ای</th>
+                                                                            <th>پایین ترین قیمت (دلار)</th>
+                                                                            <th>بالاترین قیمت (دلار)</th>
+                                                                            <th>ارز دیجیتال</th>
+                                                                            <th>عملیات</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr th:each="d : ${data}">
+                                                                            <td>
+                                                                                <p class="mb-0 text-muted"><strong>[[${d.getValueOfNameValue('MinChange')}]]</strong></p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="mb-0 text-muted"><strong>[[${d.getValueOfNameValue('MaxChange')}]]</strong></p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="mb-0 text-muted"><strong>[[${d.getValueOfNameValue('Lowest')}]]</strong></p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="mb-0 text-muted"><strong>[[${d.getValueOfNameValue('Highest')}]]</strong></p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p class="mb-0 text-muted"><strong>[[${d.getCryptocurrency().getName() + ' (' + d.getCryptocurrency().getSymbol() + ')'}]]</strong></p>
+                                                                            </td>
+                                                                            <td><button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <span class="text-muted sr-only">Action</span>
+                                                                                </button>
+                                                                                <div class="dropdown-menu dropdown-menu-right">
+                                                                                    <!-- Button trigger modal -->
+                                                                                    <button class="dropdown-item" data-toggle="modal" th:data-target="'#edit' + ${d.getId()}">ویرایش</button>
+                                                                                    <!-- Button trigger modal -->
+                                                                                    <button class="dropdown-item" data-toggle="modal" th:data-target="'#delete' + ${d.getId()}">حذف</button>
+                                                                                </div>
+                                                                                <!--Edit Data Modal -->
+                                                                                <div class="modal fade" th:id="'edit' + ${d.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title" id="verticalModalTitle" th:text="${d.getCryptocurrency.getName() + ' ویرایش '}"></h5>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <form class="needs-validation" th:action="@{../../../spanel/edit-data}" method="post" th:object="${dataEditObject}" novalidate>
+                                                                                                <div class="modal-body">
+                                                                                                    [[${dataEditObject.setId(d.getId())}]]
+                                                                                                    [[${dataEditObject.setCryptocurrency(d.getCryptocurrency())}]]
+                                                                                                    [[${dataEditObject.setNameValue(d.getNameValue())}]]
+                                                                                                    [[${dataEditObject.setSubPanel(d.getSubPanel())}]]
+                                                                                                    <input type="hidden" th:field="*{subPanel}" th:value="${subPanel}">
+                                                                                                    <input type="hidden" th:field="*{id}">
+                                                                                                    <input type="hidden" th:field="*{cryptocurrency}">
+                                                                                                    <input type="hidden" th:field="*{lastMessage}">
+                                                                                                    <div class="form-row">
+                                                                                                        <div class="col-md-12 mb-3">
+                                                                                                            <label for="validationSelect2"> : ارز دیجیتال</label>
+                                                                                                            <input type="text" class="form-control" id="example-disable" disabled="" th:value="${d.getCryptocurrency().getName() + ' (' + d.getCryptocurrency().getSymbol() + ')'}">
+                                                                                                            <div class="invalid-feedback"> لطفا یک ارز معتبر انتخاب کنید </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-row">
+                                                                                                        <th:block th:each="typeOfData : ${user.getCurrentSubscribe().getTypeOfSubscribe().getTypeOfData()}">
+                                                                                                            <div class="col-md-6 mb-3" th:switch="${typeOfData}">
+                                                                                                                <th:block th:case="'Highest'">
+                                                                                                                    <label for="validationCustom4">بالاترین قیمت (دلار)</label>
+                                                                                                                    <input type="number" step="0.01" min="0" th:field="*{nameValue['__${'Highest'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                                    <div class="invalid-feedback"> این فیلد نمی تواند خالی باشد </div>
+                                                                                                                </th:block>
+                                                                                                                <th:block th:case="'Lowest'">
+                                                                                                                    <label for="validationCustom4">پایین ترین قیمت (دلار)</label>
+                                                                                                                    <input type="number" step="0.01" min="0" th:field="*{nameValue['__${'Lowest'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                                    <div class="invalid-feedback"> این فیلد نمی تواند خالی باشد </div>
+                                                                                                                </th:block>
+                                                                                                                <th:block th:case="'MaxChange'">
+                                                                                                                    <label for="validationCustom4">رشد لحظه ای (درصد)</label>
+                                                                                                                    <input type="number" step="0.01" min="0" max="30" th:field="*{nameValue['__${'MaxChange'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                                    <div class="invalid-feedback"> مقدار این فیلد باید بین 0 تا 30 باشد </div>
+                                                                                                                </th:block>
+                                                                                                                <th:block th:case="'MinChange'">
+                                                                                                                    <label for="validationCustom4">کاهش لحظه ای (درصد)</label>
+                                                                                                                    <input type="number" step="0.01" min="-30" max="0" th:field="*{nameValue['__${'MinChange'}__']}" class="form-control" id="validationCustom4" maxlength="14" required>
+                                                                                                                    <div class="invalid-feedback"> مقدار این فیلد باید بین 0 تا 30- باشد </div>
+                                                                                                                </th:block>
+                                                                                                            </div>
+                                                                                                        </th:block>
+                                                                                                    </div>
+                                                                                                    <div class="mt-3">
+                                                                                                        <p class="mb-2 small">برای عملکرد بهتر لطفا بازه مناسب با توجه به ارز دلخواه انتخاب کنید</p>
+                                                                                                        <p class="mb-2 small">توجه داشته باشید تعیین بازه دور از واقعیت مورد بررسی قرار نمی گیرد</p>
+                                                                                                        <p class="mb-2 small">جهت عملکرد بهتر، حداکثر سود یا کاهش لحظه ای 30 درصد در نظر گرفته شده است</p>
+                                                                                                        <p class="mb-2 small">برای تعیین کاهش لحظه ای لطفا مقدار با علامت منفی را قرار دهید</p>
+                                                                                                    </div>
+
+                                                                                                </div>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">بیخیال</button>
+                                                                                                    <button type="submit" class="btn mb-2 btn-primary">ذخیره ویرایش</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!--Delete Data Modal -->
+                                                                                <div class="modal fade" th:id="'delete' + ${d.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title" id="verticalModalTitle" th:text="${d.getCryptocurrency.getName() + ' حذف '}"></h5>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <div class="modal-body">
+                                                                                                <p>[[ '  رو حذف کنی؟ ' + ${d.getCryptocurrency.getName() + ' آیا مطمئنی که میخوای '}]]</p>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">بیخیال</button>
+                                                                                                <a th:href="@{../../../spanel/delete-data(dataId = ${d.getId()})}" class="btn mb-2 btn-danger">بله، حذف کن</a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <nav aria-label="Table Paging" class="mb-0 text-muted">
+                                                                    <ul class="pagination justify-content-center mb-0">
+                                                                        <li class="page-item" th:classappend="${data.last} ? disabled"><a class="page-link" th:href="@{../../../spanel(page = ${data.number + 1})}">بعدی</a></li>
+
+                                                                        <li class="page-item" th:if="${data.totalPages > 0}" th:each="i : ${#numbers.sequence(0, data.totalPages - 1)}"
+                                                                            th:classappend="${data.number == i} ? active"><a class="page-link" th:href="@{../../../spanel(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                                        <li class="page-item" th:unless="${data.totalPages > 0}" th:each="i : ${#numbers.sequence(0, 0)}"
+                                                                            th:classappend="${data.number == i} ? active"><a class="page-link" th:href="@{../../../spanel(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                                        <li class="page-item" th:classappend="${data.first} ? disabled"><a class="page-link" th:href="@{../../../spanel(page = ${data.number - 1})}">قبلی</a></li>
+                                                                    </ul>
+                                                                </nav>
+                                                            </div>
+                                                        </div>
+                                                    </div> <!-- customized table -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div> <!-- /.card-body -->
+                                </div> <!-- /.card -->
+                            </div> <!-- /.col -->
+
+                        </div> <!-- end section -->
+                    </div> <!-- /.col-12 col-lg-10 col-xl-10 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+    <script src="../../../js/d3.min.js"></script>
+    <script src="../../../js/topojson.min.js"></script>
+    <script src="../../../js/datamaps.all.min.js"></script>
+    <script src="../../../js/datamaps-zoomto.js"></script>
+    <script src="../../../js/datamaps.custom.js"></script>
+    <script src="../../../js/Chart.min.js"></script>
+    <script>
+      /* defind global options */
+      Chart.defaults.global.defaultFontFamily = base.defaultFontFamily;
+      Chart.defaults.global.defaultFontColor = colors.mutedColor;
+    </script>
+    <script src="../../../js/gauge.min.js"></script>
+    <script src="../../../js/jquery.sparkline.min.js"></script>
+    <script src="../../../js/apexcharts.min.js"></script>
+    <script src="../../../js/apexcharts.custom.js"></script>
+    <script src='../../../js/jquery.mask.min.js'></script>
+    <script src='../../../js/select2.min.js'></script>
+    <script src='../../../js/jquery.steps.min.js'></script>
+    <script src='../../../js/jquery.validate.min.js'></script>
+    <script src='../../../js/jquery.timepicker.js'></script>
+    <script src='../../../js/dropzone.min.js'></script>
+    <script src='../../../js/uppy.min.js'></script>
+    <script src='../../../js/quill.min.js'></script>
+    <script>
+      $('.select2').select2(
+      {
+        theme: 'bootstrap4',
+      });
+      $('.select2-multi').select2(
+      {
+        multiple: true,
+        theme: 'bootstrap4',
+      });
+      $('.drgpicker').daterangepicker(
+      {
+        singleDatePicker: true,
+        timePicker: false,
+        showDropdowns: true,
+        locale:
+        {
+          format: 'MM/DD/YYYY'
+        }
+      });
+      $('.time-input').timepicker(
+      {
+        'scrollDefault': 'now',
+        'zindex': '9999' /* fix modal open */
+      });
+      /** date range picker */
+      if ($('.datetimes').length)
+      {
+        $('.datetimes').daterangepicker(
+        {
+          timePicker: true,
+          startDate: moment().startOf('hour'),
+          endDate: moment().startOf('hour').add(32, 'hour'),
+          locale:
+          {
+            format: 'M/DD hh:mm A'
+          }
+        });
+      }
+      var start = moment().subtract(29, 'days');
+      var end = moment();
+
+      function cb(start, end)
+      {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+      $('#reportrange').daterangepicker(
+      {
+        startDate: start,
+        endDate: end,
+        ranges:
+        {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        }
+      }, cb);
+      cb(start, end);
+      $('.input-placeholder').mask("00/00/0000",
+      {
+        placeholder: "__/__/____"
+      });
+      $('.input-zip').mask('00000-000',
+      {
+        placeholder: "____-___"
+      });
+      $('.input-money').mask("#.##0,00",
+      {
+        reverse: true
+      });
+      $('.input-phoneus').mask('(000) 000-0000');
+      $('.input-mixed').mask('AAA 000-S0S');
+      $('.input-ip').mask('0ZZ.0ZZ.0ZZ.0ZZ',
+      {
+        translation:
+        {
+          'Z':
+          {
+            pattern: /[0-9]/,
+            optional: true
+          }
+        },
+        placeholder: "___.___.___.___"
+      });
+      // editor
+      var editor = document.getElementById('editor');
+      if (editor)
+      {
+        var toolbarOptions = [
+          [
+          {
+            'font': []
+          }],
+          [
+          {
+            'header': [1, 2, 3, 4, 5, 6, false]
+          }],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [
+          {
+            'header': 1
+          },
+          {
+            'header': 2
+          }],
+          [
+          {
+            'list': 'ordered'
+          },
+          {
+            'list': 'bullet'
+          }],
+          [
+          {
+            'script': 'sub'
+          },
+          {
+            'script': 'super'
+          }],
+          [
+          {
+            'indent': '-1'
+          },
+          {
+            'indent': '+1'
+          }], // outdent/indent
+          [
+          {
+            'direction': 'rtl'
+          }], // text direction
+          [
+          {
+            'color': []
+          },
+          {
+            'background': []
+          }], // dropdown with defaults from theme
+          [
+          {
+            'align': []
+          }],
+          ['clean'] // remove formatting button
+        ];
+        var quill = new Quill(editor,
+        {
+          modules:
+          {
+            toolbar: toolbarOptions
+          },
+          theme: 'snow'
+        });
+      }
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function()
+      {
+        'use strict';
+        window.addEventListener('load', function()
+        {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form)
+          {
+            form.addEventListener('submit', function(event)
+            {
+              if (form.checkValidity() === false)
+              {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+    <script>
+      var uptarg = document.getElementById('drag-drop-area');
+      if (uptarg)
+      {
+        var uppy = Uppy.Core().use(Uppy.Dashboard,
+        {
+          inline: true,
+          target: uptarg,
+          proudlyDisplayPoweredByUppy: false,
+          theme: 'dark',
+          width: 770,
+          height: 210,
+          plugins: ['Webcam']
+        }).use(Uppy.Tus,
+        {
+          endpoint: 'https://master.tus.io/files/'
+        });
+        uppy.on('complete', (result) =>
+        {
+          console.log('Upload complete! We’ve uploaded these files:', result.successful)
+        });
+      }
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56159088-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag()
+      {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'UA-56159088-1');
+    </script>
+
+    <script>
+        
+    function enableSubPanel(e){
+        var enabled = document.getElementById("enabledSwitch").checked;
+        $.ajax({
+        type: "POST",
+        url: "/spanel/enabled",
+        data: $("#frm_enabled").serialize(), // serializes the form's elements.
+        success: function(data)
+        {
+        if(enabled === true){
+          
+            $("#message").removeClass('hide');
+            $("#message").addClass('show');
+            $("#message").find('.alert .span-text').html('پنل اشتراک شما فعال شد');
+            $("#message").find('.alert').removeClass('alert-danger');
+            $("#message").find('.alert').addClass('alert-success');
+               
+            /*setTimeout(function(){
+            $("#message").removeClass('show');
+            $("#message").addClass('hide');
+            }, 5000);*/
+
+        }                
+        else{
+               
+            $("#message").removeClass('hide');
+            $("#message").addClass('show');
+            $("#message").find('.alert .span-text').html('پنل اشتراک شما غیر فعال شد. دیگر پیامکی برای شما ارسال نمی شود');
+            $("#message").find('.alert').removeClass('alert-success');
+            $("#message").find('.alert').addClass('alert-danger');
+             
+            /*setTimeout(function(){
+            $("#message").removeClass('show');
+            $("#message").addClass('hide');
+            }, 5000);*/
+
+           }
+          
+        },
+        error: function(data)
+        {
+           alert(data); // show response from the php script.
+        }
+     });
+       // document.getElementById("myForm").submit();
+    }
+    </script>
+</body>
+</html>

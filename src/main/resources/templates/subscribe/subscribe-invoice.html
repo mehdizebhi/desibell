@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - صورت حساب</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12 mb-4" th:if="${user.isActiveCurrentSubscribe()}">
+                        <div class="alert alert-secondary mb-lg-5 mt-lg-5" role="alert">
+                            <h4 class="alert-heading"> شما در حال حاضر اشتراک فعال دارید <span class="fe fe-meh fe-16 mr-2"></span></h4>
+                            <p>امکان فعال سازی همزمان دو اشتراک وجود ندارد</p>
+                            <p>پس از پایان دوره اشتراک فعلی تان می توانید دوباره اقدام به خرید اشتراک کنید</p>
+                            <p th:text="${#temporals.format(user.currentSubCalculation().getExpirationAt(), 'yyyy-MMMM-dd HH:mm') + ' :پایان اشتراک در '}"></p>
+                            <hr>
+                            <p class="mb-0">جهت مشاهده جزئیات حسابتان به صفحه پروفایل بروید</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-10 col-xl-8" th:unless="${user.isActiveCurrentSubscribe()}">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <span>تمامی پرداخت ها از طریق درگاه پرداخت واسط <a href="https://oauth.payping.ir/trust" target="_blank"> پی پینگ</a> صورت میگیرد</span> <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="row align-items-center mb-4">
+                            <div class="col">
+                                <h2 class="h5 page-title"><small class="text-muted text-uppercase">صورت حساب</small><br /></h2>
+                            </div>
+                            <div class="col-auto">
+                                <form th:if="${tos.getName().equals('SUBTRIAL')}" th:action="@{../../../sub/createSubTrial}" method="post" th:object="${tos}">
+                                    <input type="hidden" th:field="*{id}">
+                                    <input type="hidden" th:field="*{name}">
+                                    <a th:href="@{../../../}" class="btn btn-danger">لغو</a>
+                                    <a th:href="@{../../../sub}" class="btn btn-info">تغییر طرح</a>
+                                    <button type="submit" class="btn btn-success">فعال سازی</button>
+                                </form>
+                                <form th:unless="${tos.getName().equals('SUBTRIAL')}" th:action="@{../../../purchase/create-pay}" method="post" th:object="${tos}">
+                                    <input type="hidden" th:field="*{id}">
+                                    <input type="hidden" th:field="*{name}">
+                                    <a th:href="@{../../../}" class="btn btn-danger">لغو</a>
+                                    <a th:href="@{../../../sub}" class="btn btn-info">تغییر طرح</a>
+                                    <button type="submit" class="btn btn-primary">پرداخت</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card shadow">
+                            <div class="card-body p-5">
+                                <div class="row mb-5">
+                                    <div class="col-12 text-center mb-4" th:switch="${tos.getName()}">
+                                        <img src="../../../assets/images/buy.png" class="navbar-brand-img brand-sm mx-auto mb-4" alt="...">
+                                        <h2 class="mb-0 text-uppercase">صورت حساب</h2>
+                                        <p class="mt-3 text" th:case="'SUBTRIAL'"><mark>اشتراک رایگان</mark></p>
+                                        <p class="mt-3 text" th:case="'SUBTIER1'"><mark>اشتراک پایه</mark></p>
+                                        <p class="mt-3 text" th:case="'SUBTIER2'"><mark>اشتراک پیشرفته</mark></p>
+                                        <p class="mt-3 text" th:case="'SUBTIER3'"><mark>اشتراک ویژه</mark></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <small class="text text-uppercase">شروع از امروز</small><br />
+                                            <strong th:text="${#temporals.format(T(java.time.LocalDateTime).now(),'MMMM dd, yyyy')}"></strong>
+                                        </p>
+                                        <p>
+                                            <small class="text text-uppercase">اتمام دوره در</small><br />
+                                            <strong th:text="${#temporals.format(T(java.time.LocalDateTime).now().plusDays(tos.getPeriod()),'MMMM dd, yyyy')}"></strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text text-uppercase mb-2">اطلاعات خریدار</p>
+                                        <p class="mb-4">
+                                            <strong th:text="${user.getName()}"></strong><br />
+                                        <th:block th:text="${user.getNumber()}"></th:block><br />
+                                        <th:block th:text="${user.getEmail()}"></th:block><br />
+                                        </p>
+                                    </div>
+                                </div> <!-- /.row -->
+                                <div class="row mt-5">
+
+                                    <div class="col-md-6">
+                                        <div class="text-right mr-2">
+                                            <p class="mb-2 h6">
+                                                <span class="text">مبلغ قابل پرداخت: </span>
+                                                <strong th:text="${T(java.lang.String).format(' %,d تومان', tos.getPrice())}"></strong>
+                                            </p>
+                                            <p class="mb-2 h6">
+                                                <span class="text">مالیات: </span>
+                                                <strong th:text="${T(java.lang.String).format(' %,d تومان', 0)}"></strong>
+                                            </p>
+                                            <p class="mb-2 h6">
+                                                <span class="text">مجموع کل: </span>
+                                                <strong th:text="${T(java.lang.String).format(' %,d تومان', tos.getPrice())}"></strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text small">
+                                            <strong>توجه :</strong> پس از عملیات پرداخت امکان لغو اشتراک وجود ندارد و در هیچ شرایطی هزینه پرداختی برگردانده نمی شود بنابراین از درستی اطلاعات درج شده اطمینان حاصل فرمایید </p>
+                                    </div>
+                                </div> <!-- /.row -->
+                            </div> <!-- /.card-body -->
+                        </div> <!-- /.card -->
+                    </div> <!-- /.col-12 -->
+                </div> <!-- .row -->
+                <center class="mt-3"><span id="PPTrust" /></center>
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <script src="https://cdn.payping.ir/statics/trust-v2.js" theme="light" size="sm"></script>
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

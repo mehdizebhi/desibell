@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - Confirm Code</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center text-left">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Striped rows -->
+                            <div class="col-md-12 my-4">
+                                <h2 class="h4 mb-1">Confirm Code</h2>
+                                <p class="mb-4">hello admin</p>
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="toolbar row mb-3">
+                                            <div class="col">
+                                            </div>
+                                            <div class="col ml-auto">
+                                                <div class="dropdown float-right">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- table -->
+                                        <table class="table table-bordered table-hover">
+
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>id</th>
+                                                    <th>code</th>
+                                                    <th>number</th>
+                                                    <th>user id</th>
+                                                    <th>user number</th>
+                                                    <th>user email</th>
+                                                    <th>expiration at</th>
+                                                    <th>used</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="code : ${codes}">
+                                                    <td th:text="${code.getId()}"></td>
+                                                    <td th:text="${code.getCode()}"></td>
+                                                    <td class="text-info" th:text="${code.getPhoneNumber()}"></td>
+                                                    <td th:text="${code.getUser().getId()}"></td>
+                                                    <td th:text="${code.getUser().getNumber()}"></td>
+                                                    <td th:text="${code.getUser().getEmail()}"></td>
+                                                    <td th:text="${code.getExpirationAt()}"></td>
+                                                    <td th:text="${code.isUsed()}" th:classappend="${code.isUsed()} ? text-success : text-danger"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <nav aria-label="Table Paging" class="mb-0 text-muted">
+                                            <ul class="pagination justify-content-end mb-0">
+                                                <li class="page-item" th:classappend="${codes.first} ? disabled"><a class="page-link" th:href="@{../../../admin/confirmCode(page = ${codes.number - 1})}">Back</a></li>
+
+                                                <li class="page-item" th:if="${codes.totalPages > 0}" th:each="i : ${#numbers.sequence(0, codes.totalPages - 1)}"
+                                                    th:classappend="${codes.number == i} ? active"><a class="page-link" th:href="@{../../../admin/confirmCode(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:unless="${codes.totalPages > 0}" th:each="i : ${#numbers.sequence(0, 0)}"
+                                                    th:classappend="${codes.number == i} ? active"><a class="page-link" th:href="@{../../../admin/confirmCode(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:classappend="${codes.last} ? disabled"><a class="page-link" th:href="@{../../../admin/confirmCode(page = ${codes.number + 1})}">Next</a></li>
+
+                                            </ul>
+                                        </nav>
+
+                                    </div>
+                                </div>
+                            </div> <!-- simple table -->
+                        </div> <!-- end section -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

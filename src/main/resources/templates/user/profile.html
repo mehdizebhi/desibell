@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - حساب کاربری</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <h2 class="h3 mb-4 page-title">پروفایل</h2>
+                        <!-- Notifications -->
+                        <div th:if="${notif != null && notif.equals('editProfile')}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            پروفایل با موفقیت ویرایش شد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div th:if="${notif != null && notif.equals('editNotProfile')}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            مشکلی در ویرایش پروفایل رخ داد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        
+                        <div th:if="${notif != null && notif.equals('subTrialAccepted')}" class="alert alert-success alert-dismissible fade show" role="alert">
+                            اشتراک برای شما فعال شد <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div th:if="${notif != null && notif.equals('subTrialNotAccepted')}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                            شما یکبار از اشتراک رایگان استفاده کرده اید <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <!-- End Notifications -->
+                        <div class="row mt-5 align-items-center">
+                            <div class="col">
+                                <div class="row mb-7">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h4 class="mb-1" th:text="${user.getName()}"></h4>
+                                        <p class="small mb-3"><span th:text="${#temporals.format(user.getCreatedAt(),'yyyy-MMMM-dd')} + ' : پیوستن در ' "></span></p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-header">
+                                <strong class="card-title h5">مشخصات <i class="fe fe-user"></i></strong>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="example-disable">:نام </label>
+                                            <input type="text" class="form-control" id="example-disable" disabled="" th:value="${user.getName()}">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="example-disable">:شماره همراه </label>
+                                            <input type="text" class="form-control" id="example-disable" disabled="" th:value="${user.getNumber()}">
+                                        </div>
+                                    </div> <!-- /.col -->
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-3">
+                                            <label for="example-disable">: ایمیل</label>
+                                            <input type="text" class="form-control" id="example-disable" disabled="" th:value="${user.getEmail()}">
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="example-static">: آخرین تغییرات</label>
+                                            <input type="text" readonly="" class="form-control-plaintext" id="example-static" th:value="${#temporals.format(user.getUpdatedAt(),'yyyy-MMMM-dd HH:mm')}">
+                                        </div>
+                                    </div> <!-- /.col -->
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <a th:href="@{../profile/edit}" class="d-flex justify-content-between text-muted"><i class="fe fe-chevron-left"></i><span>ویرایش اطلاعات</span></a>
+                            </div> <!-- .card-footer -->
+                        </div> <!-- / .card -->
+
+                        <h3>اشتراک</h3>
+                        <p class="text">.از این جا می تونی اشتراک فعالت رو ببینی. اگر اشتراک فعالی نداری اشتراکی که میخوای رو از قسمت زیر انتخاب کن </p>
+                        <div class="card-deck my-4">
+                            <div class="card mb-4 shadow" th:if="${user.isActiveCurrentSubscribe()}">
+                                <div class="card-body text-center my-4">
+                                    <a href="#" th:switch="${user.getCurrentSubscribe().getTypeOfSubscribe().getName()}">
+                                        <h3 class="h5 mt-4 mb-2" th:case="'SUBTRIAL'">رایگان</h3>
+                                        <h3 class="h5 mt-4 mb-2" th:case="'SUBTIER1'">پایه</h3>
+                                        <h3 class="h5 mt-4 mb-2" th:case="'SUBTIER2'">پیشرفته</h3>
+                                        <h3 class="h5 mt-4 mb-2" th:case="'SUBTIER3'">ویژه</h3>
+                                    </a>
+                                    <p class="text" th:text="${user.getCurrentSubscribe().remainingSubDay()} + ' days & ' + ${user.getCurrentSubscribe().remainingSubHours()} + ' hours ' + ' : زمان باقی مانده '"></p>
+                                    <div class="progress mb-3">
+                                        <div class="progress-bar progress-bar-striped bg-info-high" role="progressbar" th:style="'width: ' + ${user.getCurrentSubscribe().remainingPercentageOfSub()} + '%;'" 
+                                             aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <span class="h1 mb-0" th:text="${T(java.lang.String).format('T %,d',user.getCurrentSubscribe().getTypeOfSubscribe().getPrice())}"></span>
+                                    <p class="text-muted">ماهیانه</p>
+                                    <ul class="list-unstyled">
+                                        <li class="h5 text-success">این اشتراک برای شما فعال است</li>
+                                        <li>جهت شخصی سازی به پنل اشتراک مراجعه کنید</li>
+                                        <li>تعیین تغییرات مثبت و منفی قیمت</li>
+                                        <li>تعیین بازه امن برای قیمت</li>
+                                    </ul>
+                                    <span class="dot dot-lg bg-success"></span>
+                                    <span class="text-muted ml-3">فعال</span>
+
+                                </div> <!-- .card-body -->
+                            </div> <!-- .card -->
+                            <div class="card mb-4 shadow" th:unless="${user.isActiveCurrentSubscribe()}">
+                                <div class="card-body text-center my-4">
+                                    <a th:href="@{/sub}">
+                                        <h3 class="h5 mt-4 mb-2">خرید اشتراک</h3>
+                                    </a>
+                                    <p class="text-muted">شروع از</p>
+                                    <span class="h1 mb-0">T 10,000</span>
+                                    <p class="text-muted">ماهیانه</p>
+                                    <ul class="list-unstyled">
+                                        <li class="h5 text-danger">در حال حاضر اشتراک فعالی ندارید</li>
+                                        <li>قابلیت پشتیبانی تا حداکثر هفت ارز دیجیتال</li>
+                                        <li>تعیین تغییرات مثبت و منفی قیمت</li>
+                                        <li>تعیین بازه امن برای قیمت</li>
+                                    </ul>
+                                    <a th:href="@{/sub}" type="button" class="btn mb-2 btn-primary btn-lg">انتخاب اشتراک</a>
+                                </div> <!-- .card-body -->
+                            </div> <!-- .card -->
+                        </div> <!-- .card-group -->
+                    </div> <!-- /.col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - تایید تلفن همراه</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="dark ">
+    <div class="wrapper vh-100">
+        <div class="row align-items-center h-100">
+            <form class="col-lg-3 col-md-4 col-10 mx-auto text-center" th:action="@{/confirm/subPanelPhone(phone = ${code.getPhoneNumber()})}" method="post" th:object="${code}">
+                <input type="hidden" th:field="*{phoneNumber}">
+                <div class="mx-auto text-center my-4">
+                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./">
+                        <img src="../../../assets/images/logo/v1.22.png" width="75px" height="75px" style="border-radius: 50%;">
+                    </a>
+                    <h2 class="my-3">تایید تلفن همراه</h2>
+                </div>
+                <p class="text">کد تایید ارسال شده به شماره تان را در قسمت زیر وارد کنید</p>
+                <div th:if="${error == true}" class="alert alert-danger" role="alert">
+                    کد تایید اشتباه وارد شده است
+                </div>
+                <div class="form-group">
+                    <label for="validationCustom4" class="sr-only">Confirm Code</label>
+                    <input type="text" th:field="*{code}" id="validationCustom4" class="form-control form-control-lg" placeholder="کد تایید : 12345" required="" autofocus="">
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">تایید</button>
+                <hr class="my-4">
+                <p class="mt-4 mb-2"><a th:href="@{../../../profile}" class="text-info">حساب کاربری</a></p>
+                <p class="mt-5 mb-3 text-muted">© DesiBell 2022</p>
+            </form>
+        </div>
+    </div>
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

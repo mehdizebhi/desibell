@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - ویرایش اطلاعات</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-lg-10 col-xl-8">
+                        <h2 class="h3 mb-4 page-title">ویرایش اطلاعات</h2>
+                        <div class="my-4">
+                            <form th:action="@{../profile/edit}" method="post" th:object="${user}">
+                                <input type="hidden" th:field="*{id}">
+                                <div class="mt-5 align-items-center">
+                                    <p class="text-muted">توجه : قسمتی را که نمی خواهید تغییر دهید را بدون تغییر یا خالی بگذارید</p>
+                                </div>
+                                <hr class="my-4">
+                                <div class="form-group">
+                                    <label for="firstname">نام</label>
+                                    <input type="text" id="firstname" class="form-control" th:field="*{name}" th:value="${user.getName()}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputAddress5">شماره همراه</label>
+                                    <input type="text" class="form-control" id="inputAddress5" th:field="*{number}" th:value="${user.getNumber()}" pattern="[0]{1}[9]{1}[0-9]{9}">
+                                    <div th:if="${error != null && error.contains('existNumber')}" class="text-danger small">شماره در سیستم وجود دارد</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail4">ایمیل</label>
+                                    <input type="email" class="form-control" id="inputEmail4" th:field="*{email}" th:value="${user.getEmail()}">
+                                    <div th:if="${error != null && error.contains('existEmail')}" class="text-danger small">ایمیل در سیستم وجود دارد</div>
+                                </div>
+                                <hr class="my-4">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="input-oldPpassword">رمز عبور فعلی</label>
+                                            <input type="password" class="form-control" id="input-oldPpassword" th:field="*{oldPassword}">
+                                            <i class="fe fe-eye form-control-lg hide register-form" id="togglePassword" onclick="showPassword()"></i>
+                                            <div th:if="${error != null && error.contains('notMatch')}" class="text-danger small">رمزعبور فعلی اشتباه وارد شده است</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="input-password">رمز عبور جدید</label>
+                                            <input type="password" class="form-control" id="input-password" th:field="*{password}">
+                                            <div th:if="${error != null && error.contains('length')}" class="text-danger small">طول رمزعبور باید 6 یا بیشتر از 6 کاراکتر باشد</div>
+                                            <div th:if="${error != null && error.contains('letter')}" class="text-danger small">رمزعبور باید حداقل شامل یک حرف انگلیسی باشد</div>
+                                            <div th:if="${error != null && error.contains('number')}" class="text-danger small">رمزعبور باید حداقل شامل یک عدد باشد</div>
+                                            <div th:if="${error != null && error.contains('space')}" class="text-danger small">رمزعبور نباید شامل فاصله باشد</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="input-confirmPassword">تکرار رمز عبور جدید</label>
+                                            <input type="password" class="form-control" id="input-confirmPassword" th:field="*{confirmPassword}">
+                                            <div th:if="${error != null && error.contains('notSame')}" class="text-danger small">رمزعبور و تکرار آن یکسان نیست</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="mb-2">الزامات رمز عبور</p>
+                                        <p class="small text-muted mb-2">:برای ایجاد رمز عبور جدید، باید تمام شرایط زیر را برآورده کنید</p>
+                                        <ul class="small text-muted pl-4 mb-0">
+                                            <li> حداقل طول 6 کاراکتر </li>
+                                            <li>حداقل شامل 1 حرف انگلیسی</li>
+                                            <li>حداقل شامل 1 عدد</li>
+                                            <li>رمز عبور و تکرار رمز عبور باید یکسان باشد</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <a th:href="@{../profile}" class="btn btn-danger">بازگشت</a>
+                                <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+                            </form>
+                        </div> <!-- /.card-body -->
+                    </div> <!-- /.col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+    <script>
+        
+        const input = document.querySelector('#input-oldPpassword');
+        const iconShow = document.getElementById('togglePassword');
+        input.addEventListener('input', inputPassword);
+        
+        function inputPassword(){
+            if(input.value !== ""){
+                iconShow.classList.remove('hide');
+                iconShow.classList.add('show');
+            } else{
+                iconShow.classList.remove('show');
+                iconShow.classList.add('hide');
+            }
+            
+        }
+
+        function showPassword() {
+            var inputOldPassword = document.getElementById("input-oldPpassword");
+            var inputPassword = document.getElementById("input-password");
+            var inputConfirmPassword = document.getElementById("input-confirmPassword");
+            var icon = document.getElementById("togglePassword");
+            if (inputOldPassword.type === "password") {
+              inputOldPassword.type = "text";
+              inputPassword.type = "text";
+              inputConfirmPassword.type = "text";
+              icon.classList.remove('fe-eye');
+              icon.classList.add('fe-eye-off');
+            } else {
+              inputOldPassword.type = "password";
+              inputPassword.type = "password";
+              inputConfirmPassword.type = "password";
+              icon.classList.remove('fe-eye-off');
+              icon.classList.add('fe-eye');
+            }
+            
+        }
+        
+    </script>
+</body>
+</html>

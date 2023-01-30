@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - تایید ایمیل</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="dark ">
+    <div class="wrapper vh-100">
+        <div class="row align-items-center h-100">
+            <form class="col-lg-3 col-md-4 col-10 mx-auto text-center">
+                <div class="mx-auto text-center my-4">
+                    <a class="navbar-brand mx-auto mt-2 flex-fill text-center" href="./index.html">
+                        <img src="../../../assets/images/logo/v1.22.png" width="75px" height="75px" style="border-radius: 50%;">
+                    </a>
+                    <h4 class="my-3">رمز عبور با موفقیت بازنشانی شد</h4>
+                </div>
+                <div class="alert alert-success" role="alert">
+                    <p>
+                        [[${resetPasswordDomain.getEmail()}]]
+                        <br>
+                        یک ایمیل بازنشانی رمز عبور به ایمیل شما ارسال شده است، لطفا ایمیل خود را برای دریافت پیوند بازنشانی بررسی کنید (در صورت عدم مشاهده ایمیل بخش اسپم ایمیل خود را چک کنید) 
+
+                    </p>
+                </div>
+                <a href="../" class="btn btn-lg btn-primary btn-block">بازگشت به دسی بل</a>
+                <p class="mt-5 mb-3 text-muted">© DesiBell 2022</p>
+            </form>
+        </div>
+    </div>
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

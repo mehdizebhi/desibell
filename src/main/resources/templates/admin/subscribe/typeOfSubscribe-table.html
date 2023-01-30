@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - TOS</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center text-left">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Striped rows -->
+                            <div class="col-md-12 my-4">
+                                <h2 class="h4 mb-1">TOS</h2>
+                                <p class="mb-4">hello admin</p>
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="toolbar row mb-3">
+                                            <div class="col">
+                                            </div>
+                                            <div class="col ml-auto">
+                                                <div class="dropdown float-right">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <form class="needs-validation" th:action="@{../../../admin/tos/register}" method="post" th:object="${newTos}" novalidate>
+                                            <input type="hidden" th:field="*{id}">
+                                            <input type="hidden" th:field="*{subscribes}">
+                                            <div class="mt-3">
+                                                <div class="form-row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn mb-2 btn-success" data-toggle="modal" data-target="#new-data">New <i class="fe fe-plus-circle"></i></button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="new-data" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="verticalModalTitle">New Type of Subscribe</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="form-row">
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="input-name">Name : </label>
+                                                                                <input type="text" id="input-name" class="form-control" th:field="*{name}" placeholder="tos Name" required>
+                                                                                <div class="invalid-feedback">  </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="input-number">Number of Coin : </label>
+                                                                                <input type="number" step="1" min="0" id="input-number" class="form-control" th:field="*{numberOfCoinsAccepted}" placeholder="tos number of coin" required>
+                                                                                <div class="invalid-feedback">  </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="input-period">Period : </label>
+                                                                                <input type="number" step="1" min="0" id="input-period" class="form-control" th:field="*{period}" placeholder="period" required>
+                                                                                <div class="invalid-feedback">  </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="input-price">Price : </label>
+                                                                                <input type="number" step="1" min="0" id="input-price" class="form-control" th:field="*{price}" placeholder="price $" required>
+                                                                                <div class="invalid-feedback">  </div>
+                                                                            </div>
+                                                                            <div class="form-group col-md-12">
+                                                                                <label for="input-role">Role</label>
+                                                                                <select id="input-role" class="form-control" th:field="*{role}">
+                                                                                    <option selected="" th:value="${null}">Choose...</option>
+                                                                                    <option th:each="r : ${roles}" th:value="${r.getId()}" th:text="${r.getName()}"></option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="input-data">Data : </label>
+                                                                                <input type="text" id="input-data" class="form-control" th:field="*{typeOfData}" placeholder="data" required>
+                                                                                <div class="invalid-feedback">  </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="btn mb-2 btn-primary">Save</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- /.form-row -->
+                                            </div>
+                                        </form>
+
+                                        <!-- table -->
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>id</th>
+                                                    <th>name</th>
+                                                    <th>number of coins</th>
+                                                    <th>period</th>
+                                                    <th>price</th>
+                                                    <th>data</th>
+                                                    <th>num sub</th>
+                                                    <th>role</th>
+                                                    <th>process</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="tos : ${toses}">
+
+                                                    <td th:text="${tos.getId()}"></td>
+                                                    <td th:text="${tos.getName()}"></td>
+                                                    <td th:text="${tos.getNumberOfCoinsAccepted()}"></td>
+                                                    <td th:text="${tos.getPeriod()}"></td>
+                                                    <td th:text="${tos.getPrice()}"></td>
+                                                    <td th:text="${tos.getTypeOfData()}"></td>
+                                                    <td th:text="${tos.getSubscribes().size()}"></td>
+                                                    <td th:text="${tos.getRole.getName()}"></td>
+                                                    <td>
+                                                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="text-muted sr-only">Action</span>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <!-- Button trigger modal -->
+                                                            <button class="dropdown-item" data-toggle="modal" th:data-target="'#edit' + ${tos.getId()}">Edit</button>
+                                                            <!-- Button trigger modal -->
+                                                            <button class="dropdown-item" data-toggle="modal" th:data-target="'#delete' + ${tos.getId()}">Delete</button>
+                                                        </div>
+                                                        <!--Edit Data Modal -->
+                                                        <div class="modal fade" th:id="'edit' + ${tos.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="verticalModalTitle" th:text="${'Edit ' + tos.getName()}"></h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form class="needs-validation" th:action="@{../../../admin/tos/edit}" method="post" th:object="${editTos}" novalidate>
+                                                                        <div class="modal-body">
+                                                                            [[${editTos.setId(tos.getId())}]]
+                                                                            [[${editTos.setName(tos.getName())}]]
+                                                                            [[${editTos.setNumberOfCoinsAccepted(tos.getNumberOfCoinsAccepted())}]]
+                                                                            [[${editTos.setPeriod(tos.getPeriod())}]]
+                                                                            [[${editTos.setPrice(tos.getPrice())}]]
+                                                                            [[${editTos.setRole(tos.getRole())}]]
+                                                                            [[${editTos.setTypeOfData(tos.getTypeOfData())}]]
+                                                                            <input type="hidden" th:field="*{id}">
+                                                                            <div class="form-row">
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="input-name">name : </label>
+                                                                                    <input type="text" id="input-name" class="form-control" th:field="*{name}" placeholder="tos Name" required>
+                                                                                    <div class="invalid-feedback">  </div>
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="input-number">number of coin : </label>
+                                                                                    <input type="number" step="1" min="0" id="input-number" class="form-control" th:field="*{numberOfCoinsAccepted}" placeholder="tos number of coin" required>
+                                                                                    <div class="invalid-feedback">  </div>
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="input-period">period : </label>
+                                                                                    <input type="number" step="1" min="0" id="input-period" class="form-control" th:field="*{period}" placeholder="period" required>
+                                                                                    <div class="invalid-feedback">  </div>
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="input-price">price : </label>
+                                                                                    <input type="number" step="1" min="0" id="input-price" class="form-control" th:field="*{price}" placeholder="price $" required>
+                                                                                    <div class="invalid-feedback">  </div>
+                                                                                </div>
+                                                                                <div class="form-group col-md-12">
+                                                                                    <label for="input-role">Role</label>
+                                                                                    <select id="input-role" class="form-control" th:field="*{role}">
+                                                                                        <option selected="" th:value="${null}">Choose...</option>
+                                                                                        <option th:each="r : ${roles}" th:value="${r.getId()}" th:text="${r.getName()}"></option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="input-data">data : </label>
+                                                                                    <input type="text" id="input-data" class="form-control" th:field="*{typeOfData}" placeholder="data" required>
+                                                                                    <div class="invalid-feedback">  </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                            <button type="submit" class="btn mb-2 btn-primary">Save</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--Delete Data Modal -->
+                                                        <div class="modal fade" th:id="'delete' + ${tos.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="verticalModalTitle" th:text="${'Delete ' + tos.getName() + ' ?'}"></h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p>[[ 'Are you sure you want to delete ' + ${tos.getName() + ' ?'}]]</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        <a th:href="@{../../../admin/tos/delete/{id}(id = ${tos.getId()})}" class="btn mb-2 btn-danger">Delete</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <nav aria-label="Table Paging" class="mb-0 text-muted">
+                                            <ul class="pagination justify-content-end mb-0">
+                                                <li class="page-item" th:classappend="${toses.first} ? disabled"><a class="page-link" th:href="@{../../../admin/tos(page = ${toses.number - 1})}">Back</a></li>
+
+                                                <li class="page-item" th:if="${toses.totalPages > 0}" th:each="i : ${#numbers.sequence(0, toses.totalPages - 1)}"
+                                                    th:classappend="${toses.number == i} ? active"><a class="page-link" th:href="@{../../../admin/tos(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:unless="${toses.totalPages > 0}" th:each="i : ${#numbers.sequence(0, 0)}"
+                                                    th:classappend="${toses.number == i} ? active"><a class="page-link" th:href="@{../../../admin/tos(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:classappend="${toses.last} ? disabled"><a class="page-link" th:href="@{../../../admin/tos(page = ${toses.number + 1})}">Next</a></li>
+
+                                            </ul>
+                                        </nav>
+
+                                    </div>
+                                </div>
+                            </div> <!-- simple table -->
+                        </div> <!-- end section -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

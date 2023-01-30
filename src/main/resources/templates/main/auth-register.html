@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - ایجاد حساب کاربری</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="dark ">
+    <div class="wrapper vh-100">
+        <div class="row align-items-center h-100">
+            <form class="col-lg-6 col-md-8 col-10 mx-auto" th:action="@{/signup}" method="post" th:object="${user}">
+                <input type="hidden" th:field="*{id}">
+                <div class="mx-auto text-center my-4">
+                    <a class="navbar-brand mx-auto mt-1 flex-fill text-center" href="../">
+                        <img src="assets/images/logo/v1.22.png" width="75px" height="75px" style="border-radius: 50%;">
+                    </a>
+                    <h1 class="h4 my-3">ایجاد حساب کاربری</h1>
+                </div>
+                <div class="form-group">
+                    <label for="number">شماره تلفن همراه</label>
+                    <input type="tel"  class="form-control" id="lastname" th:field="*{number}" pattern="[0]{1}[9]{1}[0-9]{9}" placeholder="09123456789" required="">
+                    <div th:if="${error != null && error.contains('existNumber')}" class="text-danger small">شماره در سیستم وجود دارد</div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">ایمیل</label>
+                        <input type="email" id="inputEmail4" class="form-control" th:field="*{email}" placeholder="example@email.com" required="">
+                        <div th:if="${error != null && error.contains('existEmail')}" class="text-danger small">ایمیل در سیستم وجود دارد</div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="name">نام</label>
+                        <input type="text" id="firstname" class="form-control" th:field="*{name}" placeholder="name" required="">
+                    </div>
+                </div>
+                <hr class="my-4">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="inputPassword">رمز عبور</label>
+                            <input type="password" class="form-control" id="inputPassword" th:field="*{password}" placeholder="password" required="">
+                            <i class="fe fe-eye form-control-lg hide register-form" id="togglePassword" onclick="showPassword()"></i>
+                            <div th:if="${error != null && error.contains('length')}" class="text-danger small">طول رمزعبور باید 6 یا بیشتر از 6 کاراکتر باشد</div>
+                            <div th:if="${error != null && error.contains('letter')}" class="text-danger small">رمزعبور باید حداقل شامل یک حرف انگلیسی باشد</div>
+                            <div th:if="${error != null && error.contains('number')}" class="text-danger small">رمزعبور باید حداقل شامل یک عدد باشد</div>
+                            <div th:if="${error != null && error.contains('space')}" class="text-danger small">رمزعبور نباید شامل فاصله باشد</div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputConfirmPassword">تکرار رمز عبور</label>
+                            <input type="password" class="form-control" id="inputConfirmPassword" th:field="*{confirmPassword}" placeholder="confirm password" required="">
+                            <div th:if="${error != null && error.contains('notSame')}" class="text-danger small">رمزعبور و تکرار آن یکسان نیست</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-2">الزامات رمز عبور</p>
+                        <p class="small text-muted mb-2">:برای ایجاد رمز عبور جدید، باید تمام شرایط زیر را برآورده کنید</p>
+                        <ul class="small text-muted pl-4 mb-0">
+                            <li> حداقل طول 6 کاراکتر </li>
+                            <li>حداقل شامل 1 حرف انگلیسی</li>
+                            <li>حداقل شامل 1 عدد</li>
+                            <li>رمز عبور و تکرار رمز عبور باید یکسان باشد</li>
+                        </ul>
+                    </div>
+                </div>
+                <p>شما با ثبت نام در دسی بل، <a href="#" data-toggle="modal" data-target="#verticalModal">قوانین و شرایط استفاده از خدمات</a> را می پذیرید</p>
+                <!-- Modal -->
+                <div class="modal fade" id="verticalModal" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="verticalModalTitle">قوانین و شرایط استفاده از خدمات</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                دسی بل هیچ تعهدی نسبت به ضرر و زیان کاربران ندارد
+                                <br>
+                                دسی بل فقط وظیفه اطلاع رسانی از طریق پیامک را دارد
+                                <br>
+                                برای تست اصالت دسی بل یک هفته اشتراک رایگان وجود دارد
+                                <br>
+                                اطلاعات حساب شما نزد دسی بل محفوظ است
+                                <br>
+                                هرگونه مشکل و اختلالی در دریافت پیامک، وابسته به اپراتور ارائه دهنده پیامک است و خارج از تعهد دسی بل می باشد
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn mb-2 btn-success" data-dismiss="modal">موافقم</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">ثبت نام</button>
+                <hr class="my-4">
+                <p class="mt-4 mb-2 text-center"><a th:href="@{../login}" class="text-info">ورود به حساب کاربری</a></p>
+                <p class="mt-5 mb-3 text-muted text-center">© DesiBell 2022</p>
+            </form>
+        </div>
+    </div>
+    <div th:replace="fragment/layout::scripts"></div>
+    <script>
+        
+        const input = document.querySelector('#inputPassword');
+        const iconShow = document.getElementById('togglePassword');
+        input.addEventListener('input', inputPassword);
+        
+        function inputPassword(){
+            if(input.value !== ""){
+                iconShow.classList.remove('hide');
+                iconShow.classList.add('show');
+            } else{
+                iconShow.classList.remove('show');
+                iconShow.classList.add('hide');
+            }
+            
+        }
+
+        function showPassword() {
+            var inputPassword = document.getElementById("inputPassword");
+            var inputConfirmPassword = document.getElementById("inputConfirmPassword");
+            var icon = document.getElementById("togglePassword");
+            if (inputPassword.type === "password") {
+              inputPassword.type = "text";
+              inputConfirmPassword.type = "text";
+              icon.classList.remove('fe-eye');
+              icon.classList.add('fe-eye-off');
+            } else {
+              inputPassword.type = "password";
+              inputConfirmPassword.type = "password";
+              icon.classList.remove('fe-eye-off');
+              icon.classList.add('fe-eye');
+            }
+            
+        }
+        
+    </script>
+</body>
+</html>

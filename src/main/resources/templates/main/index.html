@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - سرویس اطلاع رسانی ارز دیجیتال</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="w-10 mx-auto text-center justify-content-center py-5 my-5">
+                            <h2 class="page-title mb-0">سلام، به دسی بل خوش آمدی</h2>
+                            <p class="lead text-muted mt-2 mb-4"> :) دسی بل میتونه تغییرات قیمت ارزهای دیجیتال رو بهت پیامک کنه </p>
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-12 col-lg-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <i class="fe fe-settings fe-32 text-danger"></i>
+                                        <a th:href="@{../spanel}">
+                                            <h3 class="h5 mt-4 mb-1">شخصی سازی پنل اشتراک</h3>
+                                        </a>
+                                        <p class="text-muted"> تنظیمات پنل اشتراکت رو انجام بده</p>
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </div> <!-- .col-md-->
+                            <div class="col-12 col-lg-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <i class="fe fe-log-in fe-32 text-primary"></i>
+                                        <a th:href="@{../spanel}">
+                                            <h3 class="h5 mt-4 mb-1">ورود به پنل اشتراک</h3>
+                                        </a>
+                                        <p class="text-muted"> وارد پنل اشتراکت شو</p>
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </div> <!-- .col-md-->
+                            <div class="col-12 col-lg-6">
+                                <div class="card shadow mb-4">
+                                    <div class="card-body">
+                                        <i class="fe fe-shopping-cart fe-32 text-warning"></i>
+                                        <a th:href="@{../sub}">
+                                            <h3 class="h5 mt-4 mb-1">خرید اشتراک</h3>
+                                        </a>
+                                        <p class="text-muted"> اگه اشتراک فعال نداری، اشتراک بخر</p>
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </div> <!-- .col-md-->
+                            <div class="col-12 col-lg-6">
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <i class="fe fe-user-check fe-32 text-success"></i>
+                                        <a th:href="@{../login}">
+                                            <h3 class="h5 mt-4 mb-1">ورود به حساب کاربری</h3>
+                                        </a>
+                                        <p class="text-muted">وارد حسابت شو</p>
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </div> <!-- .col-md-->
+                        </div> <!-- .row -->
+
+
+                        <div class="my-5">
+                            <div class="text-center">
+                                <h2 class="mb-0">درباره دسی بل</h2>
+                                <p class="lead text-muted mb-5">دسی بل یک سرویس اطلاع رسانی قیمت لحظه ای ارزهای دیجیتال است که با توجه
+                                    به نوع نیاز شما شخصی سازی می شود</p>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="accordion w-100" id="accordion1">
+                                    <div class="card shadow">
+                                        <div class="card-header" id="heading1">
+                                            <a role="button" href="#collapse1" data-toggle="collapse" data-target="#collapse1"
+                                               aria-expanded="false" aria-controls="collapse1">
+                                                <strong> چگونه کار می کند؟ <i class="fe fe-help-circle mr-2 text-muted"></i></strong>
+                                            </a>
+                                        </div>
+                                        <div id="collapse1" class="collapse show" aria-labelledby="heading1" data-parent="#accordion1">
+                                            <div class="card-body">
+                                                .وارد حساب کاربری خود شوید
+                                                <br>
+                                                .شماره همراه خود را جهت ارسال پیامک در پنل اشتراک اضافه کنید
+                                                <br>
+                                                .ارز دیجیتال مورد نظر خود را در پنل اشتراک اضافه کنید
+                                                <br>
+                                                .بازه قیمت و یا سود ارز دیجیتال خود را مشخص کنید
+                                                <br>
+                                                .تنظیمات پنل اشتراک خود را ذخیره کنید
+                                                <br>
+                                                .ما هر پنج دقیقه یکبار ارز مورد نظر شما را بررسی میکنیم
+                                                <br>
+                                                .در صورت مشاهده تغییری در نزدیکی بازه مشخص شده به شما از طریق پیامک اطلاع میدهیم
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+                                        <div class="card-header" id="heading1">
+                                            <a role="button" href="#collapse2" data-toggle="collapse" data-target="#collapse2"
+                                               aria-expanded="false" aria-controls="collapse2">
+                                                <strong>قوانین سایت <i class="fe fe-alert-octagon mr-2 text-muted"></i></strong>
+                                            </a>
+                                        </div>
+                                        <div id="collapse2" class="collapse" aria-labelledby="heading2" data-parent="#accordion1">
+                                            <div class="card-body">
+                                                .دسی بل هیچ تعهدی نسبت به ضرر و زیان کاربران ندارد
+                                                <br>
+                                                .دسی بل فقط وظیفه اطلاع رسانی از طریق پیامک را دارد
+                                                <br>
+                                                .برای تست اصالت دسی بل یک هفته اشتراک رایگان وجود دارد
+                                                <br>
+                                                .اطلاعات حساب شما نزد دسی بل محفوظ است
+                                                <br>
+                                                .هرگونه مشکل و اختلالی در دریافت پیامک، وابسته به اپراتور ارائه دهنده پیامک است و خارج از تعهد دسی بل می باشد
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card shadow">
+                                        <div class="card-header" id="heading1">
+                                            <a role="button" href="#collapse3" data-toggle="collapse" data-target="#collapse3"
+                                               aria-expanded="false" aria-controls="collapse3">
+                                                <strong>برای عضویت به چه چیزی نیاز دارم؟ <i
+                                                        class="fe fe-user-plus mr-2 text-muted"></i></strong>
+                                            </a>
+                                        </div>
+                                        <div id="collapse3" class="collapse" aria-labelledby="heading3" data-parent="#accordion1">
+                                            <div class="card-body">
+                                                .جهت عضویت فقط به یک شماره همراه و یک ایمیل معتبر نیاز دارید
+                                                <br>
+                                                .برای فعال سازی پنل اشتراک باید اشتراک خریداری کنید
+                                                <br>
+                                                .شما نیازی به احراز هویت ندارید و فقط شماره همراه معتبر خود را وارد کنید
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-md-6">
+                                <div class="card shadow bg-primary text-center mb-4">
+                                    <div class="card-body p-5">
+                                        <span class="circle circle-md bg-primary-light">
+                                            <i class="fe fe-navigation fe-24 text-white"></i>
+                                        </span>
+                                        <h3 class="h4 mt-4 mb-1 text-white">تیکت بزنید (به زودی)</h3>
+                                        <p class="text-white mb-4">.مشکلی دارید؟ چند دقیقه وقت بگذارید و به ما اطلاع دهید</p>
+                                        <a href="#" class="btn btn-lg bg-primary-light text-white">تیکت جدید<i
+                                                class="fe fe-arrow-right fe-16 ml-2"></i></a>
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </div> <!-- .col-md-->
+                            <div class="col-md-6">
+                                <div class="card shadow bg-success text-center mb-4">
+                                    <div class="card-body p-5">
+                                        <span class="circle circle-md bg-success-light">
+                                            <i class="fe fe-help-circle fe-24 text-white"></i>
+                                        </span>
+                                        <h3 class="h4 mt-4 mb-1 text-white">شروع به کار</h3>
+                                        <p class="text-white mb-4">.تازه واردی؟ بیا با هم شروع کنیم</p>
+                                        <a href="../get-start" class="btn btn-lg bg-success-light text-white">برو بریم<i
+                                                class="fe fe-arrow-right fe-16 ml-2"></i></a>
+                                    </div> <!-- .card-body -->
+                                </div> <!-- .card -->
+                            </div> <!-- .col-md-->
+                        </div> <!-- .row -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>

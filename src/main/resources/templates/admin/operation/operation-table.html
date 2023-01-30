@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>DesiBell - Operations</title>
+    <th:block th:include="fragment/layout::headFragment"></th:block>
+</head>
+
+<body class="vertical  dark  ">
+    <div class="wrapper">
+        <div th:replace="fragment/layout::navFragment"></div>
+        <div th:replace="fragment/layout::asideFragment"></div>
+        <main role="main" class="main-content">
+            <div class="container-fluid">
+                <div class="row justify-content-center text-left">
+                    <div class="col-12">
+                        <div class="row">
+                            <!-- Striped rows -->
+                            <div class="col-md-12 my-4">
+                                <h2 class="h4 mb-1">Operations</h2>
+                                <p class="mb-4">hello admin</p>
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="toolbar row mb-3">
+                                            <div class="col">
+                                            </div>
+                                            <div class="col ml-auto">
+                                                <div class="dropdown float-right">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <form class="needs-validation" th:action="@{../../../admin/operation/register}" method="post" th:object="${newOperation}" novalidate>
+                                            <input type="hidden" th:field="*{id}">
+                                            <div class="mt-3">
+                                                <div class="form-row">
+                                                    <div class="col-md-12 mb-3">
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn mb-2 btn-success" data-toggle="modal" data-target="#new-data">New <i class="fe fe-plus-circle"></i></button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="new-data" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="verticalModalTitle">New Operation</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="form-row">
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="validationSelect2">name : </label>
+                                                                                <input type="text" id="example-helping" class="form-control" th:field="*{name}" placeholder="OPERATION_NAME" required>
+                                                                                <div class="invalid-feedback">  </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        <button type="submit" class="btn mb-2 btn-primary">Save</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> <!-- /.form-row -->
+                                            </div>
+                                        </form>
+
+                                        <!-- table -->
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th>id</th>
+                                                    <th>name</th>
+                                                    <th>process</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr th:each="operation : ${operations}">
+                                                    
+                                                    <td th:text="${operation.getId()}"></td>
+                                                    <td th:text="${operation.getName()}"></td>
+                                                    
+                                                    <td>
+                                                        <button class="btn btn-sm dropdown-toggle more-horizontal" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <span class="text-muted sr-only">Action</span>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <!-- Button trigger modal -->
+                                                            <button class="dropdown-item" data-toggle="modal" th:data-target="'#edit' + ${operation.getId()}">Edit</button>
+                                                            <!-- Button trigger modal -->
+                                                            <button class="dropdown-item" data-toggle="modal" th:data-target="'#delete' + ${operation.getId()}">Delete</button>
+                                                        </div>
+                                                        <!--Edit Data Modal -->
+                                                        <div class="modal fade" th:id="'edit' + ${operation.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="verticalModalTitle" th:text="${'Edit ' + operation.getName()}"></h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form class="needs-validation" th:action="@{../../../admin/operation/edit}" method="post" th:object="${editOperation}" novalidate>
+                                                                        <div class="modal-body">
+                                                                            [[${editOperation.setId(operation.getId())}]]
+                                                                            [[${editOperation.setName(operation.getName())}]]
+                                                                            <input type="hidden" th:field="*{id}">
+                                                                            <div class="form-row">
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="validationSelect2">name : </label>
+                                                                                    <input type="text" id="example-helping" class="form-control" th:field="*{name}" placeholder="Operation Name" required>
+                                                                                    <div class="invalid-feedback">  </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                            <button type="submit" class="btn mb-2 btn-primary">Save</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--Delete Data Modal -->
+                                                        <div class="modal fade" th:id="'delete' + ${operation.getId()}" tabindex="-1" role="dialog" aria-labelledby="verticalModalTitle" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="verticalModalTitle" th:text="${'Delete ' + operation.getName() + ' ?'}"></h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p>[[ 'Are you sure you want to delete ' + ${operation.getName() + ' ?'}]]</p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">Cancel</button>
+                                                                        <a th:href="@{../../../admin/operation/delete/{id}(id = ${operation.getId()})}" class="btn mb-2 btn-danger">Delete</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <nav aria-label="Table Paging" class="mb-0 text-muted">
+                                            <ul class="pagination justify-content-end mb-0">
+                                                <li class="page-item" th:classappend="${operations.first} ? disabled"><a class="page-link" th:href="@{../../../admin/operation(page = ${operations.number - 1})}">Back</a></li>
+
+                                                <li class="page-item" th:if="${operations.totalPages > 0}" th:each="i : ${#numbers.sequence(0, operations.totalPages - 1)}"
+                                                    th:classappend="${operations.number == i} ? active"><a class="page-link" th:href="@{../../../admin/operation(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:unless="${operations.totalPages > 0}" th:each="i : ${#numbers.sequence(0, 0)}"
+                                                    th:classappend="${operations.number == i} ? active"><a class="page-link" th:href="@{../../../admin/operation(page=${i})}">[[${i + 1}]]</a></li>
+
+                                                <li class="page-item" th:classappend="${operations.last} ? disabled"><a class="page-link" th:href="@{../../../admin/operation(page = ${operations.number + 1})}">Next</a></li>
+
+                                            </ul>
+                                        </nav>
+
+                                    </div>
+                                </div>
+                            </div> <!-- simple table -->
+                        </div> <!-- end section -->
+                    </div> <!-- .col-12 -->
+                </div> <!-- .row -->
+                <div th:replace="fragment/layout::footer"></div>
+            </div> <!-- .container-fluid -->
+            <div th:replace="fragment/layout::notification"></div>
+            <div th:replace="fragment/layout::shortcut"></div>
+        </main> <!-- main -->
+    </div> <!-- .wrapper -->
+    <div th:replace="fragment/layout::scripts"></div>
+</body>
+</html>
