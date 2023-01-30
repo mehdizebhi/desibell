@@ -7,22 +7,20 @@ It is a web application with Java language and Spring Boot framework. This appli
 Java Version: 16, Spring Boot Version: 2.5.4
 
 Technologies:
-
-    Docker
-    MySQL
-    JWT for Authentication
-    HTML & CSS & Bootstrap
-    Spring Security
-    Thymeleaf template engine
-    Spring webflux
-    SMTP
+-Docker
+-MySQL
+-JWT for Authentication
+-HTML & CSS & Bootstrap
+-Spring Security
+-Thymeleaf template engine
+-Spring webflux
+-SMTP
 
 APIs used:
-
-    payping.ir (for payment)
-    melipayamak.com (SMS Service)
-    api.kucoin.com (for currency prices)
+-payping.ir (for payment)
+-melipayamak.com (SMS Service)
+-api.kucoin.com (for currency prices)
 
 Deployment technology:
-    Docker Hub
-    Pushed on the Paas service of arvancloud.ir
+-Docker Hub
+-Pushed on the Paas service of arvancloud.ir
