@@ -1,8 +1,5 @@
 FROM ubuntu:latest
 
-MAINTAINER unornate "unornate@gmail.com"
-
-
 RUN apt-get update && apt-get install -y openjdk-16-jdk
 
 EXPOSE 8080
